@@ -1,0 +1,342 @@
+*{
+    margin:0;
+    padding:0;
+}
+header,main,footer,nav,aside,section{
+    display: block;
+}
+body{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fcfbfb;
+}
+.top{
+    width:100%;
+    margin-left: 25px;
+    margin-top: 25px;
+    display:flex;
+    flex-direction: row;
+}
+a{
+    text-decoration: none;
+}
+#logo{
+    color:white;
+    font-size: 26px;
+    width: 40px;
+    height: 40px;
+    /* left:25px;
+    top:25px; */
+background-color: #458FF6;
+border-radius: 50%;
+text-align: center;
+margin-top: 12px;
+}
+#top_h1{
+    color: #233348;
+    font-size: 24px;
+    margin-left: 12px;
+    /* right: 88.44%; */
+    margin-top: 15px;
+    /* bottom: 97.97%; */
+}
+nav ul{
+    margin-top: 35px;
+    margin-left: 25px;
+display: flex;
+flex-direction: row;
+list-style: none;
+}
+#home{
+    color: #1F1534;
+    opacity: 0.5;
+    margin-left: 0;
+    font-size: 18px;
+}
+nav li a{
+    color: #1F1534;
+    opacity: 0.5;
+    margin-left: 40px;
+    font-size: 18px;
+}
+.active{
+    opacity:1;
+    font-weight: bold;
+}
+.main_head{
+    margin-left: 25px;
+    margin-top: 83px;
+}
+#main_header{
+    margin-left: 21.73px;
+    font-size: 42px;
+}
+#dots{
+    position: absolute;
+}
+#distillery{
+    width:550.46px;
+    height: 475px;
+    border-radius: 2px;
+    margin-top: 14px;
+    margin-left:25px;
+}
+.story{
+    margin-left: 25px;
+    margin-top: 63px;
+}
+.story p{
+    margin-top: 20px;
+opacity: 0.5;
+}
+.story button{
+    color:white;
+    margin-left: 0px;
+    font-size: 18px;
+    width: 200px;
+    height:56px;
+    margin-top: 20px;
+    background: #458FF6;
+border-radius: 55px;
+border:none;
+cursor: pointer;
+}
+.service{
+    margin-top: 100px;
+    margin-left: 25px;
+}
+.service .line{
+    width: 56px;
+    margin-top: 14px;
+    margin-left: 78px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+.service p{
+    margin-top: 14px;
+    opacity: 0.5;
+}
+.box img, .box_1 img{
+    margin-left: 37px;
+    margin-top: 54px;
+    width: 91px;
+    height: 90px;
+}
+.box p, .box_1 p{
+    margin-top: 1px;
+    margin-left: 39px;
+    opacity: 0.5;
+}
+.box h3, .box_1 h3{
+    margin-left: 34px;
+    margin-top: 22px;
+    font-size: 24px;
+}
+.box_1{
+    background-color: white;
+    width:350px;
+    height: 354px;
+    box-shadow: 0 4px 8px 0 rgba(228, 226, 226, 0.445);
+    border-radius: 20px;
+    cursor: pointer;
+    
+}
+.box{
+    background-color: white;
+    width:350px;
+    height: 354px;
+    box-shadow: 0 4px 8px 0 rgba(228, 226, 226, 0.445);
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+.box:hover, box_1:hover{
+    box-shadow: 0 4px 8px 0 rgb(212, 208, 208);
+}
+.container{
+    margin-left: 25px;
+    margin-top: 120px;
+    display: flex;
+    flex-direction: row;
+}
+.container2{
+    margin-left: 25px;
+    margin-top: 37px;
+    display: flex;
+    flex-direction: row;
+}
+button{
+    background:white;
+    font-size: 18px;
+    width: 200px;
+    height:56px;
+    margin-top: 30px;
+    margin-left: 25px;
+    color: #458FF6;
+border-radius: 55px;
+border:1.4px solid #458FF6;
+cursor: pointer;
+}
+footer{
+    margin-top: 335px;
+    height: 400px;
+    width: 100%;
+    background:linear-gradient(183.4deg,#67C3F3 -8.57%,#5A98F2 82.96%);
+}
+.foot_logo{
+    display: flex;
+    flex-direction: row;
+    font-size: 24px;
+    margin-top: 75px;
+}
+.foot_logo #logo{
+    margin-left: 30px;
+background-color:white;
+    font-size: 26px;
+    width: 40px;
+    height: 40px;
+    left:25px;
+    top:27px;
+color: #5A98F2;
+border-radius: 50%;
+text-align: center;
+margin-top: 18px;
+}
+.foot_logo #top_h1{
+    color: #ffffff;
+    margin-top:22px;
+    margin-left: 11px;
+    right: 88.44%;
+    bottom: 97.97%;
+}
+.social{
+    padding-top: 50px;
+    
+}
+#fa{
+    font-weight: bold;
+    margin-left: 25px;
+    font-size: 24px;
+    color:white
+}
+h6{
+    font-size: 16px;
+    color:#ffffff;
+    margin-left:25px ;
+    margin-top:134px;
+}
+.testimonial{
+    margin-top: 20px;
+    margin-left: 25px;
+    color: white;
+    Width: 1120px;
+    Height: 470px;
+    background:linear-gradient(208.18deg, #67C3F3 9.05%, #5A98F2 76.74%);
+    border-radius: 24px;
+}
+.testimonial h2{
+    margin-left: 25px;
+    padding-top: 25px;
+}
+.testimonial .line{
+    position: absolute;
+    width: 56px;
+    height: 2px;
+    margin-top: 10px;
+    margin-left: 246px;
+    background: white;
+    /* border: 2px solid rgb(255, 255, 255); */
+    border-radius: 5px;
+}
+.testimonial p{
+    margin-left: 25px;
+    margin-top: 30px;
+}
+.testimonial img{
+    margin-top: 3px;
+    margin-left: 2px;
+    Width: 120px;
+Height: 120px;
+border-radius: 50%;
+}
+.testimonial .image{
+    background-color: white;
+    margin-top: 19px;
+    margin-left: 24px;
+    Width: 125px;
+    Height: 125px;
+    border-radius: 50%;
+}
+.testimonial h3{
+    margin-left: 20px;
+    margin-top: 5px;
+}
+.testimonial h4{
+    margin-left: 35px;
+    margin-top: 10px;
+}
+h2{
+    margin-left: 23px;
+    margin-top: 70px;
+}
+.t_container{
+    margin-top: 59px;
+    margin-left: 25px;
+    display: flex;
+    flex-direction: row;
+}
+.t_box{
+    Width: 350px;
+    Height: 512px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(228, 226, 226, 0.445);
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+.t1_box{
+    Width: 350px;
+    Height: 512px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(228, 226, 226, 0.445);
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 0px;
+}
+.t_box h3, .t1_box h3{
+    margin-top: 21px;
+    margin-left: 33px;
+}
+.t_box p, .t1_box p{
+    margin-top: 12px;
+    margin-left: 33px;
+    margin-bottom: 25px;
+    opacity: 0.5;
+}
+
+.t_box:hover, .t1_box:hover{
+    box-shadow: 0 4px 8px 0 rgb(212, 208, 208);
+}
+.t_container img{
+    align-items: center;
+    Width: 350px;
+Height: 246px;
+}
+#read{
+    margin-left: 33px;
+}
+#read:hover{
+border-bottom: 1px solid #458FF6;
+}
+
+#view_all{
+    background:white;
+    width: 200px;
+    height:56px;
+    margin-top: 38px;
+    margin-left: 25px;
+    color: #458FF6;
+border-radius: 55px;
+border:1px solid #458FF6;
+cursor: pointer;
+
+}

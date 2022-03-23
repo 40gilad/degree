@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title> Gilad Meir </title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<link rel="stylesheet" href="http://se.shenkar.ac.il/students/2021-2022/web1/assets/style.min.css">
+		</head>
+		<body>
+		<a href="#" class="logo"></a>
+			<h1>*Steak sandwich</h1>
+			<h2><i>the ultimate sandwich for and ultimate coding night</i></h2>
+			<img src="images/steak.jpg" alt="gordon ramsay steak sandwich" title="gordon ramsay steak sandwich">
+			<p>
+			2 slices of great toasted bread with spicey relish, mustard matonnaise and vegtables.<br>
+			refreshing and satsisfying</p>
+			<h2>ingredients</h2>
+			<ul>
+				<li> Olive oil, for frying</li>
+				<li>700g fillet of beef</li>
+				<li>1 whole head of garlic, cut in half horizontally</li>
+				<li>3–4 thyme sprigs</li> 
+				<li>Butter</li>
+				<li>Sea salt and freshly ground black pepper</li>
+				<li>1 baby gem lettuce, to serve</li>
+
+			
+			
+		</body>
+	</html>
