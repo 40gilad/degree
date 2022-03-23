@@ -1,0 +1,5 @@
+<func1> <Hello World> <5>
+<func3> <Avishay> <4>
+<func2> <Alon> <4>
+<func1> <Manchester> <4>
+<func1> <London> <3>

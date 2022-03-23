@@ -1,0 +1,132 @@
+<html>
+
+<head>
+    <title>Coding Academy Challenge</title>
+
+    <style>
+        body {
+            background-color: black;
+            text-align: center;
+        }
+
+        h1 {
+            color: white;
+        }
+
+        div {
+            width: 100px;
+            height: 100px;
+            margin: auto;
+            margin-bottom: 10px;
+            border-radius: 50%;
+            transition: 0.3s;
+            line-height: 50px;
+        }
+
+        .ball1 {
+            background-color: yellow;
+            border-style: solid;
+        }
+
+        .ball2 {
+            background-color: orange;
+        }
+
+        .ball3 {
+            background-color: gray;
+        }
+
+        .ball4 {
+            background-color: brown;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>The Ball</h1>
+
+    <div class="ball1" onclick="onBall1Click()">
+        GROW
+    </div>
+    <div class="ball2" onclick="onBall2Click()">
+        TOGGLE
+    </div>
+    <div class="ball3" onclick="onBall3Click()">
+        OFF
+    </div>
+    <div class="ball4" onclick="onBall4Click()">
+        PROMPT
+    </div>
+
+    <script>
+
+        var ball1Size = 100;
+        var ball2Size = 100;
+        var ball2SizeStep = 50;
+        var ball3LightState = false
+
+        function onBall1Click() {
+            var ball1 = document.querySelector('.ball1');
+            ball1Size = ball1Size + 50;
+
+            if (ball1Size > 400) {
+                ball1Size = 100;
+            }
+
+            ball1.innerText = ball1Size;
+            ball1.style.width = ball1Size;
+            ball1.style.height = ball1Size;
+
+            if (ball1Size == 400) {
+                ball1.style.backgroundColor = 'red';
+            }
+            else {
+                ball1.style.backgroundColor = 'yellow';
+
+            }
+
+            if (ball1Size == 250) {
+                ball1.style.color = 'orange'
+                ball1.style.borderColor = 'grey'
+                ball1.style.borderWidth = '10px'
+            } else {
+                ball1.style.color = 'black'
+                ball1.style.borderWidth = '0px'
+
+
+            }
+        }
+        function onBall2Click() {
+            var ball = document.querySelector('.ball2');
+            if (ball2Size == 100) {
+                ball2SizeStep = 50
+            }
+            else if (ball2Size == 400) {
+                ball2SizeStep = -50
+            }
+
+            ball2Size = ball2Size + ball2SizeStep
+            ball.innerText = ball2Size;
+            ball.style.width = ball2Size;
+            ball.style.height = ball2Size;
+        }
+
+        function onBall3Click() {
+            var ball = document.querySelector('.ball3');
+            ball3LightState = !ball3LightState
+            if (ball3LightState == true) {
+                ball.style.backgroundColor = 'yellow'
+                ball.innerText = 'ON'
+            }else if(ball3LightState == false) {
+                ball.style.backgroundColor = 'grey'
+                ball.innerText = 'OFF'
+            }
+        }
+        function onBall4Click() {
+            var ball = document.querySelector('.ball4');
+            alert('Ball4');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+﻿  main.cpp
+C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\main.cpp(9,105): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\main.cpp(10,103): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\main.cpp(11,104): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\main.cpp(12,102): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\main.cpp(14,101): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\main.cpp(15,104): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\main.cpp(16,102): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\main.cpp(17,103): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\main.cpp(26,113): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\main.cpp(27,111): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\main.cpp(28,109): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\main.cpp(32,112): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\main.cpp(33,110): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\main.cpp(61,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  HW5.vcxproj -> C:\Users\GILAD\Desktop\temp codes\prog_y1s2\5\HW5\x64\Debug\HW5.exe
