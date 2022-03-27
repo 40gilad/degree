@@ -1,0 +1,3 @@
+﻿  employee.cpp
+C:\Users\GILAD\Desktop\degree\year_2\sm2\oop_cpp\smart_ptr\ex1\employee.cpp(59,21): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+  ex1.vcxproj -> C:\Users\GILAD\Desktop\degree\year_2\sm2\oop_cpp\smart_ptr\x64\Debug\ex1.exe
