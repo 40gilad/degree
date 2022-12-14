@@ -26,5 +26,4 @@
 *.exe
 *.zip
 *.rar
-*.csv
-*,docx
+*.docx
