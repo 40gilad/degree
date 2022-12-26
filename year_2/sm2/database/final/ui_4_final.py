@@ -4,7 +4,7 @@ import mysql.connector as S
 mydb = S.connect(
    host="127.0.0.1",
    user="root",
-   password=" "
+   password="4G02m716948"
  )
 mycursor=mydb.cursor();
 mycursor.execute("use animal_farm")
