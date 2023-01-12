@@ -1,139 +1,52 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Dec 20 23:29:17 2022
+Created on Thu Jan  5 23:27:02 2023
 
 @author: GILAD
-
-import datetime as dt
-import mysql.connector as S
-mydb = S.connect(
-   host="127.0.0.1",
-   user="root",
-   password="4G02m716948"
- )
-mycursor=mydb.cursor();
-mycursor.execute("use_DATABASE NAME")
 """
-
-import matplotlib.pyplot as plt
-import random
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
-import matplotlib.pyplot as plt
 import os
 
 
+def df_to_mat(df,col_index):
+    #transfer to matrix
+    mat=df.iloc[:,col_index[0]:col_index[1]].to_numpy()
+    zz=3
+    return mat
 
-def get_prod_rate(df,st_date=None,end_date=None):
-    #returns the rate of each product bought in the given days range
-    
-    #filter dataframe by date
-    if((st_date is not None)and(end_date is not None)):
-        local_df=df[(df.Date>st_date) & (df.Date<end_date)]
-    elif((st_date is None)and(end_date is not None)):
-        local_df=df[(df.Date>df.Date.min()) & (df.Date<end_date)]
-    elif((st_date is not None)and(end_date is None)):
-        local_df=df[(df.Date>st_date) & (df.Date<df.Date.max())]
-    else:
-        local_df=df[(df.Date>df.Date.min()) & (df.Date<df.Date.max())]
-        
-    #number of days in the range of the new df
-    local_df.Date=pd.to_datetime(local_df.Date)
-    number_of_days= (local_df.Date.max()-local_df.Date.min()).days+1
-    
-    #count number of products bought in the days range
-    n_products=local_df["itemDescription"].value_counts()
-    customers_per_day = []
-    for val in local_df.Date.unique():
-        customers_per_day.append(local_df[local_df.Date==val].Member_number.unique().shape[0])
-    #calc average customers per day:
-    #day_counts = local_df.Date.value_counts()
-    #avg_p_day = day_counts[day_counts<outlier_value].mean()
-    #rate of how many purchase from each product in the days range
-    return n_products/(number_of_days*(6/7)*np.mean(customers_per_day)),local_df #6 working days
-
-
-def generate_buy_freq(df,n_buys_per_person=50):    
-# generate unique rate to each person in the dataframe, assuming the populitation buys once in a week evarage
-    freq_df=pd.DataFrame(columns=["id","rate"])
-    freq_df.id=df.Member_number.unique()
-    freq_df.rate=np.random.poisson(7,(freq_df.shape[0],))  
-# generate n_buys_per_person buys based on the rate
-    for i,rate in enumerate(freq_df.rate):
-        for n_buy in range(n_buys_per_person):
-            freq_df.loc[i,'buy '+str(n_buy)]=np.random.poisson(rate,(1,))
-    return freq_df
-
-def generate_prod(prod_df,time_from_last_buy):
-    example=[]
-    for prod in prod_df:
-        example.append(np.random.poisson(prod*time_from_last_buy,(1,))[0])
-    return example
+def find_nearest_neigb(df_trn,df_val,df_tst):
+    hits_arr=[]
+    counter=0
+    for ind,row in df_tst.iterrows():
+        print(counter/df_tst.shape[0])
+        cur_df_trn_meta_data=df_trn[df_trn.date==row.date].iloc[:,[2,-1]]
+        #row.date=days from last buy of each costumer
+        cur_df_trn_meta_data=cur_df_trn_meta_data[cur_df_trn_meta_data.Buying_index>0]
+        cur_df_trn_meta_data.Buying_index=cur_df_trn_meta_data.Buying_index-1
+        cur_df_trn=df_trn.iloc[cur_df_trn_meta_data.index-1,:]
+        cur_df_mat=df_to_mat(cur_df_trn,[4,170])
+        cur_vec=df_val[(df_val.Buying_index==row.Buying_index-1) & (df_val.id==row.id)].to_numpy().squeeze()[4:170]
+        dist=np.mean(np.abs(cur_df_mat-cur_vec),axis=1)
+        #mean dist from each row to the curr costumer list
+        minimal_dist_index=np.argmin(dist)
+        closest_subject=cur_df_trn.iloc[minimal_dist_index,[2,-1]]
+        predicted_list=df_trn[(df_trn.id==closest_subject[0])&(df_trn.Buying_index==closest_subject[1]+1)]
+        number_of_hits=np.where((predicted_list.to_numpy().squeeze()[4:170]-row.to_numpy().squeeze()[4:170])==0)[0].shape[0]
+        hits_arr.append(number_of_hits)
+        print(number_of_hits)
+        counter+=1
+    return hits_arr
     
 
-def generate_all(df,n_buys=50,**kuargs):
-    prod_rate,local_df=get_prod_rate(df,**kuargs)
-    generated_df=generate_buy_freq(local_df,n_buys)
-    c_name=["id","date"]+prod_rate.index.unique().to_list()
-    final_df=pd.DataFrame(columns=c_name)
-    row_count=0
-    for indx,row in generated_df.iterrows():
-        for column_name,k in enumerate(row):
-            if row.index[column_name]=='id' or row.index[column_name]=='rate':
-                continue
-            final_df.loc[row_count,'id']=row[0]
-            final_df.loc[row_count,'date']=k
-            final_df.iloc[row_count,2:]=generate_prod(prod_rate,k)
-            row_count+=1
-    return final_df
-            
-
-"""
-def get_person_rate(df,st_date=None,end_date=None):
-    #returns the rate of each person's purchase in the given days range 
+if __name__=="__main__":
+    trn_size=47
+    val_size=1
+    tst_size=1
+    df=pd.read_csv("generated_with_buying_index.csv")
+    trn_set=df[(df.Buying_index<=trn_size)].reset_index()
+    val_set=df[(df.Buying_index>trn_size) & (df.Buying_index<=trn_size+val_size)].reset_index()
+    tst_set=df[(df.Buying_index>trn_size+val_size) & (df.Buying_index<=50)].reset_index()
+    result_arr=find_nearest_neigb(trn_set,val_set,tst_set)
+    zz=1
     
-    #filter dataframe by date
-    if((st_date is not None)and(end_date is not None)):
-        local_df=df[(df.Date>st_date) & (df.Date<end_date)]
-    elif((st_date is None)and(end_date is not None)):
-        local_df=df[(df.Date>df.Date.min()) & (df.Date<end_date)]
-    elif((st_date is not None)and(end_date is None)):
-        local_df=df[(df.Date>st_date) & (df.Date<df.Date.max())]
-    else:
-        local_df=df[(df.Date>df.Date.min()) & (df.Date<df.Date.max())]
-        
-    #number of days in the range of the new df
-    local_df.Date=pd.to_datetime(local_df.Date)
-    number_of_days= (local_df.Date.max()-local_df.Date.min()).days+1
-    
-    #count number of persons bought in the days range
-    n_persons=local_df["Member_number"].value_counts()
-    return n_persons/number_of_days
-"""
-    
-    
-    
-        
-        
-if __name__=='__main__':
-    if not os.path.exists('generated_df.csv'):
-        df=pd.read_csv("groceries_data.csv")
-        #final_df=generate_all(df,3,st_date="2015-08-21",end_date="2015-08-29")
-        final_df=generate_all(df,50)
-        final_df.to_csv('generated_df.csv')
-    else:
-        final_df.read_csv('generated_df.csv')
-
-
-
-
-
-
-
-
-        
-        
