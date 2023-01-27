@@ -16,8 +16,9 @@ def df_to_mat(df,col_index):
 
 def find_nearest_neigb(df_trn,df_val,df_tst):
     hits_arr=[]
-    counter=0
+    predictions_df=pd.DataFrame()
     for ind,row in df_tst.iterrows():
+        
         # CUR_DF_META_DATA HOLDS META DATA OF DF
         #row.date=days from last buy of each costumer that match to date and columns id,buying_id
         #change row.date to the time that been passed since last buying
@@ -53,7 +54,9 @@ def find_nearest_neigb(df_trn,df_val,df_tst):
         
         number_of_hits=np.where((predicted_list.to_numpy().squeeze()[4:170]-row.to_numpy().squeeze()[4:170])==0)[0].shape[0]
         hits_arr.append(number_of_hits)
-        counter+=1
+        
+        
+    
     return hits_arr
     
 
@@ -73,4 +76,3 @@ if __name__=="__main__":
     tst_set=df[(df.Buying_index>trn_size+val_size) & (df.Buying_index<=50)].reset_index()
     
     result_arr=find_nearest_neigb(trn_set,val_set,tst_set)
-    
