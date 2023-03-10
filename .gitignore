@@ -20,6 +20,8 @@
 /year_2/sm2/database/class
 /year_2/sm2/database/homework
 /year_3/sm1/qa
+/year_3/sm1/Project_manegment
+year_3/sm1/prog_eng_methods/EZlogo
 *.pdf
 *.png
 *.jpeg
@@ -32,3 +34,4 @@
 *.csv
 *.mp4
 *.drawio
+*.pptx

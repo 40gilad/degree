@@ -91,10 +91,12 @@ def generate_all(df,n_buys=50,**kuargs):
             it+=1
             final_df.loc[row_count,'id']=row[0]
             final_df.loc[row_count,'date']=k
+            
             #if(final_df[final_df['id']==row[0]].count()['id']>0):
              #   sliced_df=final_df[final_df['id']==row[0]]
             #else:
              #   sliced_df=None
+             
             final_df.iloc[row_count,2:]=generate_prod(prod_rate,k)
             row_count+=1
     return final_df

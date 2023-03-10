@@ -16,6 +16,10 @@ MAX_LISTS=49
 def get_random_row():
     return df.sample(n=1)
 
+def get_last_list(given_id):
+    x = df[df.id == given_id].tail(1)
+    return next(iter(x.iloc[:, 4:170].to_dict('index').values()))
+
 def get_empty_products_list():
     """
     
@@ -69,18 +73,23 @@ def add_list(given_id,given_dict):
 
 
     """
-        if given_id>999 and given_id < 5001:
-            raise ValueError ("id must be between 0 to 999 or 5001 to inf")
+    
+        #if given_id>999 and given_id < 5001:
+         #   raise ValueError ("id must be between 0 to 999 or 5001 to inf")
         buying_index=generate_byuing_index(given_id)
+        
         
         #add given_list meta data
         given_dict['Buying_index']=buying_index
         given_dict['id']=given_id
         
         if(buying_index==MAX_LISTS):
+            current_shape=df.shape[0]
             df.drop(df[(df.id==given_id) & (df.Buying_index==0)].index,inplace=True)
-            df.loc[df["id"]==given_id,"Buying_index"]-=1
-        
+            assert current_shape-1==df.shape[0]
+            #df.reset_index(drop=True, inplace=True)
+            #df[df["id"]==given_id].Buying_index=list(df[df["id"]==given_id].Buying_index-1)
+            df.loc[df["id"]==given_id,'Buying_index']=list(df[df["id"]==given_id].Buying_index-1)
         given_df=pd.Series(given_dict)
         given_df.fillna(0,inplace=True)
         df.loc[len(df)+1]=given_df
@@ -132,6 +141,7 @@ def predict_list(given_id,time_from_last_buy):
         predicted_list=df[(df.id==closest_subject[0])&(df.Buying_index==closest_subject[1]+1)]
       
         return next(iter(predicted_list.iloc[:,2:170].to_dict('index').values()))
+        #return next(iter(predicted_list.to_dict('index').values()))
 
 
 
