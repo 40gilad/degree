@@ -38,6 +38,7 @@ h3 {
 
 .square_color {
     background-color: #F9BDBD;
+    display: flex;
 }
 
 header {
@@ -280,3 +281,9 @@ footer p {
     line-height: 16px;
     color: #8D8D8D;
 }
+
+#wywh{
+ position: absolute;
+ top:1800px;
+}
+
