@@ -1,9 +1,0 @@
-<!DOCTYPE html>
-<html>
-    <head>
-	<title> NAME </title>
-    </head>
-    <body>
-        <section> HELLO WORLD! </section>
-    </body>
-</html>
