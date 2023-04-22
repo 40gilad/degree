@@ -9,13 +9,14 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="scripts.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Amiko:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <header>
         <section class="top_sec">
-            <article class="square"></article>
+            <article class="square" onclick="add_squares_click()"></article>
         </section>
     </header>
     <main class="L3_main">
@@ -25,7 +26,7 @@
                 <a class="out" href="layout2.html">STAIRS</a>
                 <a class="in" href="#">DYNAMIC</a>
             </nav>
-            <section class="L3_squares">
+            <section class="L3Squares">
             </section>
             <aside class="L3_aside">
             </aside>
@@ -33,6 +34,9 @@
         <section class="bottom"></section>
     </main>
     <footer></footer>
+    <script>
+        window.onload = initalize();
+     </script>
 </body>
 
 </html>

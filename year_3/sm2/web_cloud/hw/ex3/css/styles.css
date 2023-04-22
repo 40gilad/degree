@@ -286,9 +286,12 @@ aside a:nth-child(3) {
 /**************************************  LAYOUT3 CSS  **************************************/
 
 
-.L3_main{
-    display: block;
+.L3_main {
+    display: flex;
+    flex-wrap: wrap;
+    /* height: 95%; */
 }
+
 .top_sec {
     height: 123px;
     width: 100%;
@@ -299,64 +302,83 @@ aside a:nth-child(3) {
 }
 
 .top_sec .square {
-    background-color:#000000;
+    background-color: #000000;
     width: 80px;
     height: 80px;
     margin-top: 21px;
 }
+
 .Dwrapper {
-    width: 100%;
     display: flex;
-    flex-direction: row;
-    position: relative;
-    height: 995px;
+    width: 100%;
+    height: auto;
+    height:100%;
 }
-
-.L3_aside {
-    background-color: rgba(24, 71, 239, 0.3);
-    height: 100%;
-    width: 104px;
-    position: absolute;
-    right: 0;
-}
-
 
 .L3_nav {
     background-color: #E5E5E5;
     padding-top: 123px;
     width: 372px;
-    height: 100%;
-    float: left;
+    height: auto;
 }
 
-.bottom{
-    height:463px;
-    width:100%;
+.L3_aside {
+    background-color: rgba(24, 71, 239, 0.3);
+    height: auto;
+    width: 104px;
+}
+
+.L3Squares {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 123px;
+     padding-left: 64px;
+    padding-right: 64px;
+    gap:123px;
+    margin-bottom: 200px;
+}
+
+.bottom {
+    height: 463px;
+    width: 100%;
     background-color: #EBEF18;
 }
 
-
-@media screen and (max-width: 600px) {/*for mobile*/
-
-.L3_nav{
-    width:100%;
-    height: 123px;
-    background-color: #F5F5F5;
-    display: flex;
-    justify-content: center;
-    padding-top: 52px;
+.cardLetter{
+    color: white;
     font-weight: 400;
-    font-size: 24px;
-    line-height: 32px;
-}
-
-.L3_aside{
-    width: 0;
-}
-
+    /* font-size: 5em; */
+    visibility: hidden;
+    padding-left: 30%;
+    padding-top: 15%;
 }
 
 
+@media screen and (max-width: 600px) {
 
-    
-    
+    /*for mobile*/
+    .Dwrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        height: 100%;
+    }
+
+    .L3_nav {
+        width: 100%;
+        padding-top: 52px;
+        height: 123px;
+        background-color: #F5F5F5;
+        display: flex;
+        justify-content: center;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .L3_aside {
+        display: none;
+    }
+}
