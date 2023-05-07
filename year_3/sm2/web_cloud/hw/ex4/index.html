@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>My first form</h1>
+    <form action=http://se.shenkar.ac.il/teach/web1/get_form3.php method="get"
+    autocomplete="on">
+    Full Name: <input type="text" pattern="[a-z|A-Z]* [a-z|A-Z]*.+" name="fullName" title="First and last name"><br><br>
+    Password: <input type="password" pattern=".+[a-z][A-Z]+|.+[A-Z][a-z]+" name="pass" title="Passowrd must contain capital letter"><br><br>
+    Email: <input type="email" name="mail"><br><br>
+    Website: <input type="url" name="website" ><br><br>
+    Phone Number: <input type="tel" pattern="^([0-9]{9}|[0-9]{10})$" name="phone" title="Phone number must be 9-10 digits"><br><br>
+    Number of coffee you drank today: <input type="number" name="coffee"><br><br>
+    Temperture today: 60&degC<input type="range" name="temper" min="60" max="200">200&degC<br><br>
+    Address: <textarea name="address" rows="5"></textarea><br><br>
+    <h3>Intrests</h3>
+    Music:<input type="checkbox" name="interests[]" value="Music"><br>
+    Movies:<input type="checkbox" name="interests[]" value="Movies"><br>
+    Theater:<input type="checkbox" name="interests[]" value="Theater"><br>
+    Drinking:<input type="checkbox" name="interests[]" value="Drinking"><br>
+    Nothing:<input type="checkbox" name="interests[]" value="Nothing"><br><br>
+    <h3>Gender</h3>
+    <input type="radio" name="gender" value="male"> Male<br>
+    <input type="radio" name="gender" value="female"> Female<br>
+    Age: <input type="select" pattern="^[2][6-9]$|^[3][0-8]$" name="age" title="You must be in age 26-38"><br><br>
+    <input type="submit">
+
+    </form>
+    
+</body>
+</html>
