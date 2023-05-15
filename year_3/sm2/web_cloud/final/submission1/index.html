@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+
+<body id="body-index">
+    <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
+        <a class="navbar-brand" href="#" id="navbar-brand"></a>
+        <h3 class="d-inline-block mx-2 my-0">IDog</h3>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarLinks"
+            aria-controls="navbarLinks" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarLinks">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="gardens.html">Gardens</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="dogs.html">My Dogs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="settings.html">Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row align-items-center my-4">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <img src="images/icon.png" alt="Dog Icon" class="img-fluid rounded-circle">
+            </div>
+            <div class="col-md-8" id="intro-dog">
+                <h2>Hey, I'm Daizi</h2>
+                <p>Say bonjour to Daisy, the sassy
+                    and lovable French Bulldog who's always ready to put on a show! Whether she's
+                    playing fetch or snuggling up with her favorite humans, Daisy is full of energy and
+                    personality. She's a pro at giving out slobbery kisses and will never turn down a
+                    belly rub. With her adorable smushy face and perky ears, Daisy is sure to steal your
+                    heart and leave you saying "Ooh la la!"</p>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-center my-4 mx-4 justify-content-center">
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Dog Details</h5>
+                        <p class="card-text"><i class="fa fa-male"></i> Name: Daizi</p>
+                        <p class="card-text"><i class="fa fa-male"></i> Gender: Male</p>
+                        <p class="card-text"><i class="fa fa-calendar"></i> Age: 2 years</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Dog Details</h5>
+                        <p class="card-text"><i class="fa fa-balance-scale"></i> Weight: 25kg</p>
+                        <p class="card-text"><i class="fa fa-arrows-v"></i> Height: 60cm</p>
+                        <p class="card-text"><i class="fa fa-paint-brush"></i> Color: Brown</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Dog Description</h5>
+                        <p class="card-text"><i class="fa fa-info-circle"></i> Lorem ipsum dolor sit amet, consectetur
+                            adipiscing elit. Sed viverra fringilla velit, vel scelerisque enim rutrum eu. Sed tincidunt
+                            libero nec leo bibendum, in pulvinar odio vulputate.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Dog Image</h5>
+                        <img src="https://via.placeholder.com/150" alt="Dog Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="container-fluid pt-3 pb-3" id="footer-index">
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Recent Gardens</h4>
+            </div>
+            <div class="col-md-6 text-md-right">
+                <a href="#" data-toggle="modal" data-target="#gardenModal">View All</a>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Garden 1</h5>
+                        <p class="card-text">Description of Garden 1.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Garden 2</h5>
+                        <p class="card-text">Description of Garden 2.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Garden 3</h5>
+                        <p class="card-text">Description of Garden 3.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="modal fade" id="gardenModal" tabindex="-1" role="dialog" aria-labelledby="gardenModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="gardenModalLabel">All Gardens</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>List of all gardens goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Logout Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to log out?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

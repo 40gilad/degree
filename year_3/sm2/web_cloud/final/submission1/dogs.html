@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>My Dogs</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light" id="navbar">
+		<a class="navbar-brand" href="#" id="navbar-brand"></a>
+		<h3 class="d-inline-block mx-2 my-0">IDog</h3>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarLinks"
+			aria-controls="navbarLinks" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarLinks">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="index.html">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="gardens.html">Gardens</a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" href="#">My Dogs</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="settings.html">Settings</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container mt-3">
+		<div class="row">
+			<div class="col-md-8">
+				<ul class="list-group">
+					<li class="list-group-item d-flex justify-content-between align-items-center border-0">
+
+						<h2 class="me-auto">My Dogs</h2>
+						<button type="button" class="btn btn-primary ms-auto" data-bs-toggle="modal"
+							data-bs-target="#addDogModal">Add Dog</button>
+					</li>
+					<li class="list-group-item d-flex justify-content-between align-items-center border-0">
+						<div class="d-flex align-items-center">
+							<img src="https://via.placeholder.com/50" alt="Dog 1" class="rounded-circle me-3">
+							<div>
+								<div class="d-flex align-items-center justify-content-between">
+									<h4 class="me-3">Dog 1</h4>
+									<div>
+										<button type="button" class="btn btn-sm btn-danger me-2">Delete</button>
+										<button type="button" class="btn btn-sm btn-primary ms-auto">Edit</button>
+									</div>
+								</div>
+
+								<p>Age: 3 years<br>Breed: Labrador Retriever<br>Description: Max is not your average
+									Labrador Retriever. He's a walking party on four legs! This guy is always down for a
+									good time and knows how to make you laugh. Max is the life of the party and will
+									never turn down a game of fetch or a chance to splash around in a puddle. If you're
+									looking for a furry friend who will keep you on your toes, Max is your man. Just
+									make sure to have some extra treats on hand – this guy has a healthy appetite!
+								</p>
+							</div>
+						</div>
+					</li>
+					<li class="list-group-item d-flex justify-content-between align-items-center border-0">
+						<div class="d-flex align-items-center">
+							<img src="https://via.placeholder.com/50" alt="Dog 2" class="rounded-circle me-3">
+							<div>
+								<div class="d-flex align-items-center justify-content-between">
+									<h4 class="me-3">Dog 2</h4>
+									<div>
+										<button type="button" class="btn btn-sm btn-danger me-2">Delete</button>
+										<button type="button" class="btn btn-sm btn-primary ms-auto">Edit</button>
+									</div>
+								</div>
+
+								<p>Age: 5 years<br>Breed: German Shepherd<br>Description: Meet Luna, the furry bodyguard
+									you never knew you needed. She's fiercely loyal and always on high alert, ready to
+									protect her family from anything and everything (including the mailman). Luna is
+									also a quick learner and loves to show off her impressive repertoire of tricks -
+									just make sure to keep the treats coming! With Luna by your side, you'll never have
+									to worry about feeling unsafe or unloved.
+								</p>
+							</div>
+						</div>
+					</li>
+					<li class="list-group-item d-flex justify-content-between align-items-center border-0">
+						<div class="d-flex align-items-center">
+							<img src="https://via.placeholder.com/50" alt="Dog 3" class="rounded-circle me-3">
+							<div>
+								<div class="d-flex align-items-center justify-content-between">
+									<h4 class="me-3">Dog 3</h4>
+									<div>
+										<button type="button" class="btn btn-sm btn-danger me-2">Delete</button>
+										<button type="button" class="btn btn-sm btn-primary ms-auto">Edit</button>
+									</div>
+								</div>
+
+								<p>Age: 2 years<br>Breed: French Bulldog<br>Description: Say bonjour to Daisy, the sassy
+									and lovable French Bulldog who's always ready to put on a show! Whether she's
+									playing fetch or snuggling up with her favorite humans, Daisy is full of energy and
+									personality. She's a pro at giving out slobbery kisses and will never turn down a
+									belly rub. With her adorable smushy face and perky ears, Daisy is sure to steal your
+									heart and leave you saying "Ooh la la!"
+								</p>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- Add Dog Modal -->
+	<div class="modal fade" id="addDogModal" tabindex="-1" aria-labelledby="addDogModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="addDogModalLabel">Add Dog</h5>
+				</div>
+				<div class="modal-body">
+					<form>
+						<!-- 
+						TODO:send to the client side
+						<form method="POST" action="/submit-form"> 
+						-->
+						<div class="mb-3">
+							<label for="dogName" class="form-label">Dog Name</label>
+							<input type="text" class="form-control" id="dogName">
+						</div>
+						<div class="mb-3">
+							<label for="breed" class="form-label">Breed</label>
+							<input type="text" class="form-control" id="breed">
+						</div>
+						<div class="mb-3">
+							<label for="age" class="form-label">Age</label>
+							<input type="number" class="form-control" id="age">
+						</div>
+						<div class="mb-3">
+							<label for="age" class="form-label">Description</label>
+							<input type="text" class="form-control" id="description">
+						</div>
+					</form>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Add Dog</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="page-footer footer">
+	</footer>
+	<!-- Logout Modal -->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					Are you sure you want to log out?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" href="login.html">Logout</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/dogs.js"></script>
+</body>
+
+</html>
