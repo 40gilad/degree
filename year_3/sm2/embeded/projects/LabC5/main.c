@@ -1,8 +1,8 @@
 /*
- * File:   LabC5.c
+ * File:   LabC6.c
  * Author: GILAD MEIR
  *
- * Created on May 17, 2023, 16:17 AM
+ * Created on May 29, 2023, 04:45 AM
  */
 
 #include <stdlib.h>
