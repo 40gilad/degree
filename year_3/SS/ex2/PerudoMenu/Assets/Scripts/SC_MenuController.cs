@@ -2,15 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SC_MenuController : MonoBehaviour
 {
     public SC_MenuLogic CurrMenuLogic;
-
+    public SC_BackgamoonConnect backgamoon_connect;
+    bool multiplayer = true;
     #region buttons
     public void Btn_Singleplayer()
     {
+        multiplayer = false;
         Debug.Log("Btn_Singleplayer");
+        multiplayer = false;
         if (CurrMenuLogic != null)
             CurrMenuLogic.Btn_Logic("Screen_Singleplayer");
     }
@@ -18,12 +22,17 @@ public class SC_MenuController : MonoBehaviour
     {
         Debug.Log("btn_Play");
         if (CurrMenuLogic != null)
-            CurrMenuLogic.Btn_Logic("Screen_Loading");
+        {
+            backgamoon_connect.set(multiplayer);
+            //CurrMenuLogic.Btn_Logic("Screen_Loading");
+            SceneManager.LoadScene("Backgamoon");
+        }
     }
 
     public void Btn_Multiplayer()
     {
         Debug.Log("Btn_Multiplayer");
+        multiplayer = true;
         if (CurrMenuLogic != null)
             CurrMenuLogic.Btn_Logic("Screen_Multiplayer");
     }
@@ -38,6 +47,13 @@ public class SC_MenuController : MonoBehaviour
         Debug.Log("Btn_Options");
         if (CurrMenuLogic != null)
             CurrMenuLogic.Btn_Logic("Screen_Options");
+    }
+
+    public void Btn_Exit()
+    {
+        Debug.Log("Btn_Exit");
+        if (CurrMenuLogic != null)
+            CurrMenuLogic.Exit_Logic();
     }
     public void Btn_Back()
     {

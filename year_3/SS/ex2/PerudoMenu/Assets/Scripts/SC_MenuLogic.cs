@@ -44,6 +44,10 @@ public class SC_MenuLogic : MonoBehaviour
         Curr_Screen.SetActive(true);
     }
 
+    public void Exit_Logic()
+    {
+        Application.Quit();
+    }
     public void Btn_BackLogic()
     {
         Debug.Log("Btn_BackLogic");
