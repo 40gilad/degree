@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 public class SC_Board : MonoBehaviour
 {
     public delegate void Turn_Handler(bool t);
     public static Turn_Handler Turn;
+    public delegate void SinglePlayer_Handler();
+    public static SinglePlayer_Handler play_singleplayer;
     public Dictionary<string, int> flags;
 
     public SC_BackgamoonConnect backgamoon_connect;
@@ -160,22 +163,28 @@ public class SC_Board : MonoBehaviour
         if(Sprite_x.activeSelf)
             Sprite_x.SetActive(false);
         Turn(turn);
+        if (!turn && !multiplayer)
+        {
+            DiceRoller[0].GetComponent<SC_DiceManeger>().Roll();
+            play_singleplayer();
+        }
     }
 
     private void rotate_camera()
     {
         if (multiplayer)
-        {
-            Vector3 rotation;
-            if (turn)
-                rotation = new Vector3(0, 0, 0);
-            else
-                rotation = new Vector3(0, 0, 180);
-            camera.GetComponent<Transform>().localRotation = Quaternion.Euler(rotation);
+            StartCoroutine(CR_rotate_camera());
+    }
 
-            //Change dice position()
-        }
-
+    IEnumerator CR_rotate_camera()
+    {
+        yield return new WaitForSeconds(1);
+        Vector3 rotation;
+        if (turn)
+            rotation = new Vector3(0, 0, 0);
+        else
+            rotation = new Vector3(0, 0, 180);
+        camera.GetComponent<Transform>().localRotation = Quaternion.Euler(rotation);
     }
 
     private void is_game_finish()
@@ -184,4 +193,8 @@ public class SC_Board : MonoBehaviour
     }
     #endregion
 
+    public void exit_game()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
 }

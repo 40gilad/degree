@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SC_DiceManeger : MonoBehaviour
 {
-    public delegate void Roll_Dice_Handler(int left,int right=0);
+    public delegate void Roll_Dice_Handler(int left, int right = 0);
     public static Roll_Dice_Handler Roll_Dice;
     GameObject[] DicePairs;
     SC_Board board;
@@ -21,19 +21,19 @@ public class SC_DiceManeger : MonoBehaviour
 
     void Start()
     {
-        times_pressed = 0; 
+        times_pressed = 0;
     }
 
     private void OnMouseDown()
     {
-        //for checking doubles logic
-        //int x=-3, y=-5;
-        //while (x != y) {
-        //    x = Random.Range(1, 7);
-        //    y = Random.Range(1, 7);
-        //        }
+        Roll();
+    }
+
+    public void Roll()
+    {
         Roll_Dice(Random.Range(1, 7), Random.Range(1, 7));
         gameObject.SetActive(false);
     }
+
 
 }
