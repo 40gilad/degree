@@ -35,7 +35,7 @@ namespace class2.Utils
         public static void Print(string txt,ConsoleColor txt_color=ConsoleColor.White, ConsoleColor background_color=ConsoleColor.Black,
             bool get=false, bool post= false, bool put = false, bool delete = false)
         {
-            print_method(get,post);
+            print_method(get:get,post:post,put:put,delete:delete);
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write(DateTime.UtcNow.ToString() + ": ");
             Console.ForegroundColor = txt_color;
