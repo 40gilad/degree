@@ -1,5 +1,6 @@
 ﻿using class2.Managers;
 using class2.Models;
+using class2.Services;
 using class2.Utils;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,6 +50,7 @@ namespace class2.Controllers
                     int new_emp_id = int.Parse(data["Id"].ToString());
                     string new_emp_name = data["Name"].ToString();
                     Employee curr = new Employee(new_emp_id, new_emp_name);
+
                     if (EmployeeManager.Instance.AddEmployee(curr))
                     {
                         PrintService.Print(txt: "Employee " + data["Name"] + ", " + data["Id"] + " Added to EmployeeManeger");

@@ -1,4 +1,5 @@
 ﻿using class2.Models;
+using class2.Services;
 namespace class2.Managers
 {
     public class EmployeeManager
@@ -24,24 +25,30 @@ namespace class2.Managers
 
         public Employee GetEmployee(int id)
         {
-            if (
-                id < 0
-                || !emp_data.ContainsKey(id)
-                || emp_data == null
-                )
-                return null; // if emp_data is null, dont create one because it's get and not post
-            return emp_data[id];
+            Dictionary<string, string> res_emp = null;
+            if (id  > 0)
+                res_emp = RedisService.GetEmployeeDetails(id.ToString());
+            else
+                return null;
+
+            if (res_emp!=null && res_emp.Count<=0)
+                return null;
+
+            if (res_emp!=null)
+                return Employee.ToEmployee(res_emp);
+            return null;
         }
 
         public bool AddEmployee(Employee emp)
         {
-            if (emp_data == null)
-                emp_data = new Dictionary<int, Employee>();
+            string emp_id = emp.id.ToString();
             if (emp == null)
                 return false;
-            if (!emp_data.ContainsKey(emp.id))
+
+            Dictionary<string, string> temp_emp = RedisService.GetEmployeeDetails(emp_id);
+            if (temp_emp.Count == 0) // Uid not exist
             {
-                emp_data.Add(emp.id, emp);
+                RedisService.SetEmployeeDetails(emp_id, emp.ToDict());
                 return true;
             }
             else return false;
