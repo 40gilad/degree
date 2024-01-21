@@ -58,7 +58,7 @@ namespace class2.Controllers
                     }
                     else
                     {
-                        ret.Add("Message", "Employee is null or already in the system");
+                        ret.Add("Message", " id is <0, Employee is null or already in the system");
                         PrintService.Print(txt: "Employee " + data["Name"] + ", " + data["Id"] + " is null or already in the system");
                     }
 

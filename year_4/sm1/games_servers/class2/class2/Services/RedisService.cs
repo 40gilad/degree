@@ -71,6 +71,16 @@ namespace class2.Services
 
         #endregion
 
+        #region Remove Keys
+
+        private static bool RemoveData(string key)
+        {
+            var DBconnection = RedisManager.connection.GetDatabase();
+            return DBconnection.KeyDelete(key);
+        }
+
+        #endregion
+
         #region Employee
 
         public static void SetEmployeeDetails(string key, Dictionary<string,string> emp_dict)
@@ -83,6 +93,10 @@ namespace class2.Services
             return RedisGetDictionary(key+"#Detailes");
         }
 
+        public static bool DeleteEmployeeDetails(string key)
+        {
+            return RemoveData(key+ "#Detailes");
+        }
         #endregion
     }
 }

@@ -4,7 +4,6 @@ namespace class2.Managers
 {
     public class EmployeeManager
     {
-        private Dictionary<int, Employee> emp_data;
 
         #region Singleton
         public static EmployeeManager _instance;
@@ -18,15 +17,12 @@ namespace class2.Managers
             }
         }
         #endregion
-        public EmployeeManager()
-        {
-            emp_data = new Dictionary<int, Employee>();
-        }
+        public EmployeeManager(){}
 
         public Employee GetEmployee(int id)
         {
             Dictionary<string, string> res_emp = null;
-            if (id  > 0)
+            if (id  >= 0)
                 res_emp = RedisService.GetEmployeeDetails(id.ToString());
             else
                 return null;
@@ -42,7 +38,7 @@ namespace class2.Managers
         public bool AddEmployee(Employee emp)
         {
             string emp_id = emp.id.ToString();
-            if (emp == null)
+            if (emp == null || emp.id<0)
                 return false;
 
             Dictionary<string, string> temp_emp = RedisService.GetEmployeeDetails(emp_id);
@@ -56,25 +52,18 @@ namespace class2.Managers
 
         public bool UpdateEmployee(Employee emp)
         {
-            if (
-                emp_data == null
-                || emp == null
-                || !emp_data.ContainsKey(emp.id)
-                )
+            Dictionary<string, string> temp_emp = RedisService.GetEmployeeDetails(emp.id.ToString());
+            if (emp == null || temp_emp.Count <= 0)
                 return false;
-            emp_data[emp.id] = emp;
+            RedisService.SetEmployeeDetails(emp.id.ToString(), emp.ToDict());
             return true;
         }
 
         public bool DeleteEmployee(int id)
         {
-            if (
-                emp_data == null
-                || id <0
-                || !emp_data.ContainsKey(id)
-                )
+            bool is_success=RedisService.DeleteEmployeeDetails(id.ToString());
+            if (id<0 || ! is_success)
                 return false;
-            emp_data.Remove(id);
             return true;
         }
     }
