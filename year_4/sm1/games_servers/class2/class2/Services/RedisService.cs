@@ -85,17 +85,34 @@ namespace class2.Services
 
         public static void SetEmployeeDetails(string key, Dictionary<string,string> emp_dict)
         {
-            RedisSetDictionary(key+"#Detailes", emp_dict);
+            RedisSetDictionary(key+"#EDetailes", emp_dict);
         }
 
         public static Dictionary<string, string> GetEmployeeDetails(string key)
         {
-            return RedisGetDictionary(key+"#Detailes");
+            return RedisGetDictionary(key+"#EDetailes");
         }
 
         public static bool DeleteEmployeeDetails(string key)
         {
-            return RemoveData(key+ "#Detailes");
+            return RemoveData(key+ "#EDetailes");
+        }
+        #endregion
+
+        #region User
+        public static void SetUserDetails(string key, Dictionary<string, string> emp_dict)
+        {
+            RedisSetDictionary(key + "#UDetailes", emp_dict);
+        }
+
+        public static Dictionary<string, string> GetUserDetails(string key)
+        {
+            return RedisGetDictionary(key + "#UDetailes");
+        }
+
+        public static bool DeleteUserDetails(string key)
+        {
+            return RemoveData(key + "#UDetailes");
         }
         #endregion
     }
