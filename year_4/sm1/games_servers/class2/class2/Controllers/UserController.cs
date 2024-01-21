@@ -15,20 +15,21 @@ namespace class2.Controllers
         public Dictionary<string, object> GetUser(string Email, string password)
         {
             Dictionary<string, object> ret = new Dictionary<string, object>();
-            ret.Add("Response: ", "GetUser " + Email);
             PrintService.Print(txt: "GetEmployee with id " + Email, get: true);
             User user = UserManager.Instance.GetUser(UserIdGenerator.ToId(Email));
 
             if (user != null)
             {
-                ret.Add("Message", "Success");
-                ret.Add("Email", user.email);
-                ret.Add("Password", user.password);
+                ret.Add("IsLoggedIn", "true");
+                ret.Add("UserId", UserIdGenerator.ToId(user.email));
+                ret.Add("Response", "Login");
                 PrintService.Print(txt: "Returns User " + user.email);
             }
             else
             {
                 ret.Add("Message", "User " + Email + " not exist");
+                ret.Add("Response", "Login");
+                ret.Add("IsLoggedIn", "false");
                 PrintService.Print(txt: "Returned error: User"+ Email +" not exist ");
             }
             return ret;
