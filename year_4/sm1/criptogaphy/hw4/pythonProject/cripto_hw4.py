@@ -127,9 +127,9 @@ if __name__ == "__main__":
         if num != 0:
             success += 1
             success_round_sum += rounds
-            print(f'After {rounds} rounds, I found 32 bit prime: {num}')
+            print(f'After {rounds} rounds, I found 32 bit-prime: {num}')
         else:
-            print(f"After {rounds} rounds, I didn't find 32 bit prime")
+            print(f"After {rounds} rounds, I didn't find-32 bit prime")
 
         print('----------------------------------------------------------------')
     print(f'\nOut of {function_call_amount}, I found:\n {success} prime numbers\n'
