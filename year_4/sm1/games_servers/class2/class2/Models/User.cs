@@ -14,12 +14,12 @@ namespace class2.Models
         public string id { get { return _id; } }
         public string email { get { return _mail; } }
         public string password { get { return _password; } }
-        public int money { get { return _money; } }
-        public int xp { get { return _xp; } }
-        public int level { get { return _level; } }
+        public int money { get { return _money; } set { _money = value; } }
+        public int xp { get { return _xp; } set { _xp = value; } }
+        public int level { get { return _level; } set { _level = value; } }
 
 
-        public User(string id, string mail,string password, int money=0, int xp = 0, int level = 0)
+        public User(string id, string mail,string password, int money=0, int xp = 0, int level = 1)
         {
             _id = id;
             _mail = mail;
