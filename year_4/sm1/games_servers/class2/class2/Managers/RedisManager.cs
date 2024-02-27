@@ -4,9 +4,9 @@ namespace class2.Managers
 {
     public class RedisManager
     {
-        private static string endPoint = "redis-10284.c323.us-east-1-2.ec2.cloud.redislabs.com";
-        private static string password = "1D1HPjD3J7cbRn8Lr1U6cQ3Apa9DY8EO";
-        private static int port = 10284;
+        private static string endPoint = "redis-14389.c323.us-east-1-2.ec2.cloud.redislabs.com";
+        private static string password = "rYuWZAWdISulGp9I2AbVho0wuzf8j155";
+        private static int port = 14389;
 
         private static Lazy<ConnectionMultiplexer> lazyConnectionMultiplexer;
         static RedisManager()
