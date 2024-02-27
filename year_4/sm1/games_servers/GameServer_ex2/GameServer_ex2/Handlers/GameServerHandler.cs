@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameServer_ex2.Requests;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,19 @@ namespace GameServer_ex2.Handlers
         protected override void OnOpen()
         {
             Console.WriteLine("OnOpen " + ID);
+            try
+            {
+                
+                if (Context.QueryString.AllKeys.Contains("data"))
+                {
+                    ConnectionRequest.Get(Sessions[ID], Context.QueryString["data"]);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("OnOpen Failed. Error: "+e.Message);
+                Sessions.CloseSession(ID);
+            }
         }
 
         protected override void OnClose(CloseEventArgs e)
@@ -23,13 +37,11 @@ namespace GameServer_ex2.Handlers
 
         protected override void OnError(ErrorEventArgs e)
         {
-            Console.WriteLine("OnError " + ID);
 
         }
 
         protected override void OnMessage(MessageEventArgs e)
         {
-            Console.WriteLine("OnMessage " + ID);
 
         }
     }
