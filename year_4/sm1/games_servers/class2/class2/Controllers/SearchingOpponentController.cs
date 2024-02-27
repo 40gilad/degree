@@ -16,7 +16,7 @@ namespace class2.Controllers
             Dictionary<string, object> ret = new Dictionary<string, object>();
             return new Dictionary<string, object>()
             {
-                {"ConnectionUrl","ws://localhost:"+port},
+                {"ConnectionUrl","ws://localhost:7890/GameServer"},
                 {"Response","SearchingOpponent" }
             };
         }
