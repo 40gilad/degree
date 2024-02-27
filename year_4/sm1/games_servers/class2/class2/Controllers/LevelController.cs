@@ -29,7 +29,7 @@ namespace class2.Controllers
                 if (data.ContainsKey("Email") && data.ContainsKey("Xp"))
                 {
                     string user_id = UserIdGenerator.ToId(data["Email"].ToString());
-                    User curr=UserManager.Instance.GetUser(user_id);
+                    User curr=LoginManager.Instance.GetUser(user_id);
                     int xp = int.Parse(data["Xp"].ToString());
                     int xp_after_add=curr.xp+xp;
                     curr.xp = xp_after_add;
@@ -42,7 +42,7 @@ namespace class2.Controllers
                         else  { new_level = 5; }
                         curr.level = new_level;
                     }
-                    UserManager.Instance.UpdateUser(curr);
+                    LoginManager.Instance.UpdateUser(curr);
                     ret.Add("Xp: ", xp_after_add.ToString());
                     ret.Add("level: ", new_level.ToString());
                 }

@@ -30,11 +30,11 @@ namespace class2.Controllers
                 if (data.ContainsKey("Email") && data.ContainsKey("Currency"))
                 {
                     string user_id = UserIdGenerator.ToId(data["Email"].ToString());
-                    User curr = UserManager.Instance.GetUser(user_id);
+                    User curr = LoginManager.Instance.GetUser(user_id);
                     int money = int.Parse(data["Currency"].ToString());
                     int money_after_add = curr.money + money;
                     curr.money = money_after_add;
-                    UserManager.Instance.UpdateUser(curr);
+                    LoginManager.Instance.UpdateUser(curr);
                     ret.Add("Currency: ", money_after_add.ToString());
                 }
             }
