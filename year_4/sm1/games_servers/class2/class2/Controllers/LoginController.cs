@@ -10,9 +10,10 @@ namespace class2.Controllers
     [ApiController]
     public class LoginController : Controller
     {
+        int start_rating = 500;
         #region Get User
         [HttpGet("Login/{Email}&{Password}")]
-        public Dictionary<string, object> GetUser(string Email, string password)
+        public Dictionary<string, object> Login(string Email, string password)
         {
             Dictionary<string, object> ret = new Dictionary<string, object>();
             PrintService.Print(txt: "GetUser with id " + Email, get: true);
@@ -40,7 +41,7 @@ namespace class2.Controllers
 
         #region Post User
         [HttpPost("Register")]
-        public Dictionary<string, object> PostEmployee([FromBody] Dictionary<string, object> data)
+        public Dictionary<string, object>   Register([FromBody] Dictionary<string, object> data)
         {
             Dictionary<string, object> ret = new Dictionary<string, object>();
             ret.Add("Response: ", "Regiser");
@@ -52,9 +53,10 @@ namespace class2.Controllers
                 string u_password = data["Password"].ToString();
                 string u_id = UserIdGenerator.ToId(u_mail);
                 User curr = new User(u_id, u_mail, u_password);
+                RedisService.SetUserRating(u_id, start_rating.ToString());
 
                 if (LoginManager.Instance.AddUser(curr))
-                {
+                {//new user has added
                     PrintService.Print(txt: "User " + data["Email"] + " Added to UserManeger");
                     ret.Add("Message", "User " + data["Email"] + " Added to UserManeger");
                 }

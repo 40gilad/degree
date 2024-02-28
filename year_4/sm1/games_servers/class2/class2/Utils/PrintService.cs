@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Drawing;
 
 namespace class2.Utils
 {

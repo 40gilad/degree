@@ -1,5 +1,4 @@
 ﻿using class2.Utils;
-using System.Data.SqlTypes;
 
 namespace class2.Models
 {
@@ -19,7 +18,7 @@ namespace class2.Models
         public int level { get { return _level; } set { _level = value; } }
 
 
-        public User(string id, string mail,string password, int money=0, int xp = 0, int level = 1)
+        public User(string id, string mail,string password, int money=0, int xp =0, int level = 1)
         {
             _id = id;
             _mail = mail;

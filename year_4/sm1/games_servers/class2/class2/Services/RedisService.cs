@@ -8,7 +8,7 @@ namespace class2.Services
     {
         #region get/set Strings
 
-        private static void RedisSet(string key,string val)
+        private static bool RedisSet(string key,string val)
         {
             var DBconnection = RedisManager.connection.GetDatabase();
             try
@@ -18,8 +18,10 @@ namespace class2.Services
             catch(Exception e) {
                 string m =e.Message;
                 PrintService.Print(e.Message);
+                return false;
             }
             PrintService.Print("Reddis Added");
+            return true;
         }
 
         private static string RedisGet(string key)
@@ -113,6 +115,15 @@ namespace class2.Services
         public static bool DeleteUserDetails(string key)
         {
             return RemoveData(key + "#UDetailes");
+        }
+
+        public static bool SetUserRating(string uid, string rating)
+        {
+            return RedisSet(key:"URating#"+uid, val:rating);
+        }
+        public static string GetUserRating(string uid)
+        {
+            return RedisGet(key: "URating#" + uid);
         }
         #endregion
     }
