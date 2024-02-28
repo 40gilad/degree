@@ -8,6 +8,6 @@ namespace GameServer_ex2.Globals
 {
     internal class GlobalEnums
     {
-        public enum CloseConnectionCode { Unknown= 100,DuplicateConnection=101};
+        public enum CloseConnectionCode { Unknown= 100,DuplicateConnection=101, MissingUserId=102};
     }
 }

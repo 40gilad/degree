@@ -46,8 +46,14 @@ namespace GameServer_ex2.Models
 
         public void CloseConnection(CloseConnectionCode close_code,string message)
         {
-            Session.Context.WebSocket.Close();
+            Session.Context.WebSocket.Close((ushort)close_code,message);
         }
 
+        public bool IsUserLiveWithSession()
+        {
+            if (Session != null && Session.ConnectionState == WebSocketSharp.WebSocketState.Open)
+                return true;
+            return false;
+        }
     }
 }

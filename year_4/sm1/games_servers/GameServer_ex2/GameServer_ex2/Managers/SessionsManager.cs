@@ -39,7 +39,7 @@ namespace GameServer_ex2.Managers
                 User curr_user = user_session[user.UserId];
 
                 if (curr_user.GetConnectionState() == WebSocketSharp.WebSocketState.Open)
-                {//user session is open. need to close it so user wond have 2 connections.
+                {//user session is open. need to close it so user wont have 2 connections.
                     curr_user.CloseConnection(
                         close_code: CloseConnectionCode.DuplicateConnection,message:"Duplicate connection were found"
                         );
@@ -52,8 +52,8 @@ namespace GameServer_ex2.Managers
             else
                 user_session.Add(user.UserId, user);
             if (user_session.ContainsKey(user.Session.ID))
-                user_session[user.Session.ID] = user;
-            else user_session.Add(user.Session.ID,user)
+                user_session[user.Session.ID] = user; //override the user's session
+            else user_session.Add(user.Session.ID, user);
         }
 
     }

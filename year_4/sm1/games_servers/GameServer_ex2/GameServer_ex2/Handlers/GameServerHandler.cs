@@ -1,9 +1,6 @@
 ﻿using GameServer_ex2.Requests;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 
@@ -13,7 +10,7 @@ namespace GameServer_ex2.Handlers
     {
         protected override void OnOpen()
         {
-            Console.WriteLine("OnOpen " + ID);
+            Console.WriteLine("\nOnOpen " + ID);
             try
             {
                 
@@ -24,15 +21,15 @@ namespace GameServer_ex2.Handlers
             }
             catch (Exception e)
             {
-                Console.WriteLine("OnOpen Failed. Error: "+e.Message);
+                Console.WriteLine("\nOnOpen Failed. Error: "+e.Message);
                 Sessions.CloseSession(ID);
             }
         }
 
         protected override void OnClose(CloseEventArgs e)
         {
-            Console.WriteLine("OnClose " + ID);
-
+            Console.WriteLine("\nOnClose " + ID);
+            CloseConnectionRequest.RemoveConnection(ID);
         }
 
         protected override void OnError(ErrorEventArgs e)

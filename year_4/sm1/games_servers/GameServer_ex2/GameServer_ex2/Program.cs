@@ -13,7 +13,7 @@ namespace GameServer_ex2
             WebSocketServer server = new WebSocketServer(server_url);
             server.AddWebSocketService<GameServerHandler>("/GameServer");
             server.Start();
-            Console.WriteLine("Main Live Server "+ server_url);
+            Console.WriteLine("\nMain Live Server "+ server_url);
             Console.ReadKey();
             server.Stop();
         }
