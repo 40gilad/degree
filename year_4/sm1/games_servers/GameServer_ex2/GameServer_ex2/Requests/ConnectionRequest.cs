@@ -34,7 +34,7 @@ namespace GameServer_ex2.Requests
 
                     if (SearchingManager.Instance.AddToSearchingDict(uid: uid, rating: curr_user_rating))
                         Console.WriteLine(
-                            "\nConnectionRequest: AddToSearchingList returned false for User "
+                            "\nConnectionRequest: AddToSearchingDict added User "
                             + uid + " with rating "+ curr_user_rating
                             );
 

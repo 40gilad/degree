@@ -56,5 +56,23 @@ namespace GameServer_ex2.Managers
             else user_session.Add(user.Session.ID, user);
         }
 
+        public void UpdateUser(User user)
+        {
+            if (user_session == null)
+                user_session = new Dictionary<string, User>();
+            
+            //updating user_session with key=user_id
+            if (user_session.ContainsKey(user.UserId))
+                user_session[user.UserId]= user; //Override
+            else
+                user_session.Add(user.UserId,user); //new
+
+            //updating user_session with key=session_id
+            if (user_session.ContainsKey(user.Session.ID))
+                user_session[user.Session.ID] = user; //Override
+            else
+                user_session.Add(user.Session.ID, user); //new
+        }
+
     }
 }

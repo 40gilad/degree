@@ -6,7 +6,7 @@ namespace GameServer_ex2.Models
 {
     internal class User
     {
-        public enum UserState { Idle = 100, Matching = 101, Playing = 102 };
+        public enum UserState { Idle = 100, Matching = 101, PrePlay=102, Playing = 103 };
 
         private string id;
         public string UserId { get { return id; }  }
@@ -51,9 +51,26 @@ namespace GameServer_ex2.Models
 
         public bool IsUserLiveWithSession()
         {
+            //check if user has open socket with session
+
             if (Session != null && Session.ConnectionState == WebSocketSharp.WebSocketState.Open)
                 return true;
             return false;
+        }
+
+        public void SendMessage(string msg)
+        {
+            try
+            {
+                if (IsUserLiveWithSession())
+                    Session.Context.WebSocket.Send(msg);
+                else Console.WriteLine("\nUser " + id + "is not live with session (Socket is not open)");
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("\nUser "+ id+" SendMessage: "+e.ToString());
+            }
         }
     }
 }
