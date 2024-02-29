@@ -6,6 +6,7 @@ using WebSocketSharp.Server;
 
 namespace GameServer_ex2.Handlers
 {
+    // Handle Requests from client
     internal class GameServerHandler:WebSocketBehavior
     {
         protected override void OnOpen()
@@ -39,7 +40,9 @@ namespace GameServer_ex2.Handlers
 
         protected override void OnMessage(MessageEventArgs e)
         {
-
+            Console.WriteLine("\nOnMessage");
+            Console.WriteLine(e.Data);
+            MessageRequest.Get(session: Sessions[ID], data: e.Data);
         }
     }
 

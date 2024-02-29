@@ -20,7 +20,8 @@ namespace GameServer_ex2.Models
 
         public MatchData(List<SearchingData> search_data,int curr_match_id)
         {
-            //MatchedPlayersData=......
+            if (matched_players_data == null)
+                matched_players_data = new Dictionary<string, SearchingData>();
             match_id=curr_match_id;
             match_time = DateTime.UtcNow.ToString();
             foreach (SearchingData sd in search_data)

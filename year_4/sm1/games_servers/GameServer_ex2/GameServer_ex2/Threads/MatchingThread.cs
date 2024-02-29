@@ -49,20 +49,30 @@ namespace GameServer_ex2.Threads
 
         private void MatchPlayers()
         {
+            // running on the sorted list. additional for (with j=i+1) to find the next player that they are
+            // ptobably match. when match has found, check if match is valid and rating gap is ok.
+            // if so, removes matched players from SearchingManager list, sends both the matching data
+            // and update their session and their user state to preplay.
+
+
             bool is_found_match = false;
             List<SearchingData> sorted_searching_list = SearchingManager.Instance.GetSearchingList().
                 OrderBy(value => value.PlayerRating).ToList();
 
-            if (sorted_searching_list != null && sorted_searching_list.Count > 1)
+            if (sorted_searching_list != null )
             {//if sorted_searching_list not null and it has more that 1 playes -> can match them
+
                 for (int i = 0;
-                    i < sorted_searching_list.Count;
-                    i++)
-                {
+                    i < sorted_searching_list.Count && sorted_searching_list.Count > 1;
+                    i++, is_found_match=false
+                    )
+                { 
                     SearchingData first_user = sorted_searching_list[i];
+
                     for (int j = i + 1;
                         j < sorted_searching_list.Count && !is_found_match;
-                        j++)
+                        j++
+                        )
                     {
                         SearchingData second_user = sorted_searching_list[j];
                         if (AreMatching(first_rating: first_user.PlayerRating, second_rating: second_user.PlayerRating))
@@ -82,11 +92,15 @@ namespace GameServer_ex2.Threads
                                 };
                                 string json_data = JsonConvert.SerializeObject(data);
 
-                                foreach (User user in matched_users)//send data to matched players
+                                foreach (User user in matched_users)
                                 {
+                                    //send data to matched players, change their state,
+                                    //remove from SearchingManager annd update session
+
                                     user.SendMessage(json_data);
                                     user.CurrState = User.UserState.PrePlay;
                                     SearchingManager.Instance.RemoveFromSearchingList(user.UserId);
+                                    SessionsManager.Instance.UpdateUser(user);
                                 }
 
                                 List<SearchingData> temp_search_data = new List<SearchingData>()
@@ -100,7 +114,11 @@ namespace GameServer_ex2.Threads
                                     );
 
                                 MatchingManager.Instance.AddMatching(curr_match_data);
+                                is_found_match = true;
 
+                                //remove users from sorted_list (iterated list)
+                                sorted_searching_list.Remove(first_user);
+                                sorted_searching_list.Remove(second_user);
                             }
                         }
 
