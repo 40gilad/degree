@@ -27,16 +27,16 @@ namespace class2.Controllers
 
                 bool is_password_match = (user.password == password);
                 ret.Add("IsLoggedIn", is_password_match);
-                if (!DailyBonusManager.Instance.DailyBouns(user:user))
-                    PrintService.Print(txt: "Error calculating daily bonus for " + user.id);
-
-                //DailyBonus update lli and diamonds. need to update DB
-                LoginManager.Instance.UpdateUser(user);
 
 
 
                 if (!is_password_match)
                     ret.Add("Message", "Password incorrect");
+                else
+                { // if password match, calculate daily bonus and update in db
+                    DailyBonusManager.Instance.DailyBouns(user: user);
+                    LoginManager.Instance.UpdateUser(user);
+                }
 
                 ret.Add("UserId", user.id);
                 ret.Add("UserName",user.user_name);
@@ -66,12 +66,12 @@ namespace class2.Controllers
                 string u_id = UserIdGenerator.ToId(u_mail);
                 string user_name = UserNameManager.Instance.GenrateUserName();
                 int diamonds = start_diamonds_amount;
-                //string lli = DateTime.UtcNow.ToString();
+                string lli = DateTime.UtcNow.ToString();
 
-                // FOR QA ONLY:
-                // Subtract 26 hours using a TimeSpan
-                DateTime timeMinus26Hours = DateTime.UtcNow.Subtract(new TimeSpan(26, 0, 0));
-                string lli = timeMinus26Hours.ToString("yyyy-MM-dd HH:mm:ss");
+                // // FOR QA ONLY- sets register time to 26 hours ago
+                // // Subtract 26 hours using a TimeSpan
+                // DateTime timeMinus26Hours = DateTime.UtcNow.Subtract(new TimeSpan(26, 0, 0));
+                // string lli = timeMinus26Hours.ToString("yyyy-MM-dd HH:mm:ss");
 
                 User curr = new User(id: u_id, mail: u_mail, password: u_password, diamonds: diamonds,
                     user_name: user_name, lli: lli);
