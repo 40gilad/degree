@@ -38,6 +38,9 @@ namespace class2.Managers
 
         public bool AddUser(User user)
         {
+            //new user. initial diamonds amount, user_name and last_log_in date will be added as now
+  
+
             string user_id = user.id;
             if (user == null)
                 return false;
@@ -45,6 +48,7 @@ namespace class2.Managers
             Dictionary<string, string> temp_user = RedisService.GetUserDetails(user_id);
             if (temp_user.Count == 0) // Uid not exist
             {
+                Dictionary<string, string> user_to_add = user.ToDict();
                 RedisService.SetUserDetails(user_id, user.ToDict());
                 return true;
             }
