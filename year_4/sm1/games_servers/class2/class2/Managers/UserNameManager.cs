@@ -33,6 +33,7 @@
                 "DavidGilmour", // Lead Guitarist, Singer, Songwriter
                 "RogerWaters", // Bass Guitarist, Singer, Songwriter
                 "NickMason", // Drummer, Percussionist
+                "SydBarrett", // Founder 
 
                 // Deep Purple
                 "RitchieBlackmore", // Lead Guitarist, Songwriter
@@ -65,8 +66,10 @@
                 "JohnDeacon", // Bass Guitarist (retired)
                 "RogerTaylor", // Drummer, Singer, Songwriter
 
-                // Jimi Hendrix Experience
+                // Singles
                 "JimiHendrix", // Lead Guitarist, Vocalist, Songwriter
+                "LesClypool",
+                "FrankZappa",
 
                 // The Doors
                 "JimMorrison", // Lead Vocalist
@@ -81,6 +84,9 @@
                 "TheZabariBrothers",
                 "RavidPlotnik",
                 "MattiCaspi",
+                "ShiranAsaf",
+                "Tuna",
+                "HadagNahash",
 
 
                 // Guns N' Roses
