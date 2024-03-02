@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebSocketSharp.Server;
+using static System.Collections.Specialized.BitVector32;
 
 namespace GameServer_ex2.Requests
 {
@@ -32,6 +33,15 @@ namespace GameServer_ex2.Requests
                     {
                         //TODO: start game
                     }
+
+                    else if (msg_data.ContainsKey("Msg"))
+                    {//according to SC_LoginLogic.Btn_SearchingOpponent_SendMessage()
+                     //this is the key we got for brodcasting msg in client game
+
+                        BrodcastMessage(msg_data["Msg"].ToString());
+                    }
+
+                    //TODO: SEND BRODCAST TO ALL PLAYERS
 
                     else
                         Console.WriteLine("\nMessageRequest:No service was sent to session id " + session_id);
@@ -62,6 +72,21 @@ namespace GameServer_ex2.Requests
                 return true;
             }
             return false;
+        }
+
+        private static void BrodcastMessage(string msg)
+        {
+            Console.WriteLine("\nMessageRequest: BrodcastMessage. send to everyone");
+            Console.WriteLine("MessageRequest: BrodcastMessage. message: " + msg);
+            Dictionary<string, User> temp_session = SessionsManager.Instance.UserSession;
+
+            foreach (string sess in temp_session.Keys)
+            {
+                IWebSocketSession curr_session = temp_session["sess"].Session;
+                if (curr_session.ConnectionState == WebSocketSharp.WebSocketState.Open)
+                    curr_session.Context.WebSocket.Send(msg);
+            }
+                
         }
     }
 }
