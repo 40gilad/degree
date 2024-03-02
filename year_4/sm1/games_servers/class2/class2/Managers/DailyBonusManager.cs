@@ -24,20 +24,17 @@ namespace class2.Managers
 
         public DailyBonusManager() { }
 
-        public bool DailyBouns(User user)
-        {//calculate daily bouns, and update last_log_in to now
+        public void DailyBouns(User user)
+        {//calculate and update daily bouns and update last_log_in to now
 
-            int hours_from_last_log_in = Math.Abs(GetHoursFromLastLogIn(user.last_log_in));
-
-            if (hours_from_last_log_in > min_hours_to_get_bouns &&
-                hours_from_last_log_in < max_hours_to_get_bouns) //need to get daily bonus
-                user.diamonds = CalcDailyBonus(user.diamonds);
-
+            user.diamonds = CalcDailyBonus(
+                hours_from_last_log_in: Math.Abs(GetHoursFromLastLogIn(user.last_log_in))
+                , curr_diamonds: user.diamonds
+                );
             user.last_log_in = DateTime.UtcNow.ToString();
-            return true;
         }
 
-        private int CalcDailyBonus(int curr_diamons)
+        private int CalcDailyBonus(int hours_from_last_log_in, int curr_diamonds)
         {
             int first_day = 10,
                 second_day = 20,
@@ -47,8 +44,19 @@ namespace class2.Managers
                 sixt_day = 80,
                 seventh_day = 100;
 
+            if (hours_from_last_log_in == -1) //Error. keep diamonds as is
+                return curr_diamonds;
 
-            switch (curr_diamons)
+            if (hours_from_last_log_in > max_hours_to_get_bouns)//reset daily bonus to first day
+                                                                //logged in in interval of more then 48 hours
+                return first_day;
+            else if (hours_from_last_log_in < min_hours_to_get_bouns) // keep diamonds as is.
+                                                                      // logged in in interval of less then 24 hours
+                return curr_diamonds;
+
+    
+            // if here - logged in with interval of more then 24 hours and less then 48
+            switch (curr_diamonds)
             {
                 //case x_day:
                 // return x+1_day

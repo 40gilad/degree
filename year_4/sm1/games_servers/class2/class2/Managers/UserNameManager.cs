@@ -88,7 +88,6 @@
                 "Tuna",
                 "HadagNahash",
 
-
                 // Guns N' Roses
                 "AxlRose", // Vocalist
                 "Slash", // Lead Guitarist
