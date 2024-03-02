@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace class2.Controllers
 {
+
     [Route("api/")]
     [ApiController]
     public class LoginController : Controller
     {
+        int start_diamonds_amount = 10;
         int start_rating = 500;
         #region Get User
         [HttpGet("Login/{Email}&{Password}")]
@@ -23,11 +25,21 @@ namespace class2.Controllers
             if (user != null)
             {
 
-                bool is_password_match = user.password == password;
+                bool is_password_match = (user.password == password);
                 ret.Add("IsLoggedIn", is_password_match);
+                if (!DailyBonusManager.Instance.DailyBouns(user:user))
+                    PrintService.Print(txt: "Error calculating daily bonus for " + user.id);
+
+                //DailyBonus update lli and diamonds. need to update DB
+                LoginManager.Instance.UpdateUser(user);
+
+
+
                 if (!is_password_match)
                     ret.Add("Message", "Password incorrect");
-                ret.Add("UserId", UserIdGenerator.ToId(user.email));
+
+                ret.Add("UserId", user.id);
+                ret.Add("UserName",user.user_name);
                 PrintService.Print(txt: "Returns User " + user.email);
                 return ret;
             }
@@ -41,7 +53,7 @@ namespace class2.Controllers
 
         #region Post User
         [HttpPost("Register")]
-        public Dictionary<string, object>   Register([FromBody] Dictionary<string, object> data)
+        public Dictionary<string, object> Register([FromBody] Dictionary<string, object> data)
         {
             Dictionary<string, object> ret = new Dictionary<string, object>();
             ret.Add("Response: ", "Regiser");
@@ -52,7 +64,17 @@ namespace class2.Controllers
                 string u_mail = data["Email"].ToString();
                 string u_password = data["Password"].ToString();
                 string u_id = UserIdGenerator.ToId(u_mail);
-                User curr = new User(u_id, u_mail, u_password);
+                string user_name = UserNameManager.Instance.GenrateUserName();
+                int diamonds = start_diamonds_amount;
+                //string lli = DateTime.UtcNow.ToString();
+
+                // FOR QA ONLY:
+                // Subtract 26 hours using a TimeSpan
+                DateTime timeMinus26Hours = DateTime.UtcNow.Subtract(new TimeSpan(26, 0, 0));
+                string lli = timeMinus26Hours.ToString("yyyy-MM-dd HH:mm:ss");
+
+                User curr = new User(id: u_id, mail: u_mail, password: u_password, diamonds: diamonds,
+                    user_name: user_name, lli: lli);
                 RedisService.SetUserRating(u_id, start_rating.ToString());
 
                 if (LoginManager.Instance.AddUser(curr))
