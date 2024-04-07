@@ -18,7 +18,11 @@ namespace GameServerShenkar.Globals
         public static int TimeOutTime { get { return _timeOutTime; } }
 
         private static int _roomId = 1;
-        public static int RoomId { get { return _roomId++; } }
+        public static int RoomId { get { return _roomId; } }
+        public static int GetAndIncRoomId()
+        {
+            return _roomId++;
+        }
 
         private static int min_players = 1;
         public static int MinPlayers { get { return min_players; } }
