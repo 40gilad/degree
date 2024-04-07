@@ -16,14 +16,13 @@ namespace GameServerShenkar.Requests
             Dictionary<string, object> response = new Dictionary<string, object>();
             Dictionary<string, GameThread> activeRooms = RoomsManager.Instance.ActiveRooms;
             List<object> roomsList = new List<object>();
-            Dictionary<string, object> roomDetails;
 
             if (activeRooms != null && activeRooms.Count > 0)
             {
                 foreach (var roomEntry in activeRooms)
                 {
                     GameThread room = roomEntry.Value;
-                    roomDetails = new Dictionary<string, object>();
+                    Dictionary<string, object> roomDetails = new Dictionary<string, object>();
                     roomDetails.Add("RoomId", room.RoomId);
                     roomDetails.Add("Name", room.RoomName);
                     roomDetails.Add("TurnTime", room.TurnTime);

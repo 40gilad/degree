@@ -62,8 +62,7 @@ namespace GameServerShenkar.Threads
 
             /* FROM CLIENT VARIABLES */
 
-
-            roomId = GlobalVariables.RoomId;
+            roomId = GlobalVariables.GetAndIncRoomId();
             roomName = _roomName;
             roomOwner = CurMatchData.FirstPlayer;
             int joinedUsersCount = 1;
