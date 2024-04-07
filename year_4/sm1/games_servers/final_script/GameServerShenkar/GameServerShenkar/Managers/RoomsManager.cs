@@ -44,13 +44,9 @@ namespace GameServerShenkar.Managers
             if (ActiveRooms == null)
                 activeRooms = new Dictionary<string, GameThread>();
 
-            if (ActiveRooms.ContainsKey(MatchId))
-            {
-                ActiveRooms[MatchId] = Room;
-                match_room_id[MatchId]=Room.RoomId.ToString();
-            }
-
-            else ActiveRooms.Add(MatchId, Room);
+            ActiveRooms.Add(MatchId, Room);
+            ActiveRooms[MatchId] = Room;
+            match_room_id[Room.RoomId.ToString()] =MatchId;
         }
 
         public void RemoveRoom(string MatchId)
