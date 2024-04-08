@@ -66,9 +66,14 @@ namespace GameServerShenkar.Managers
         {
             if (ActiveRooms != null)
             {
-                string match_id = match_room_id[RoomId];
-                if (match_id != null && match_id != string.Empty)
-                    return activeRooms[match_id];
+                try
+                {
+                    string match_id = match_room_id[RoomId];
+                    if (match_id != null && match_id != string.Empty)
+                        return activeRooms[match_id];
+                }
+                catch { return null; }
+
             }
             return null;
         }

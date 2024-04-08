@@ -1,6 +1,7 @@
 ﻿using GameServerShenkar.Managers;
 using GameServerShenkar.Models;
 using GameServerShenkar.Services;
+using GameServerShenkar.Threads;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,34 +20,43 @@ namespace GameServerShenkar.Requests
              *             {"Service", "JoinRoom"},
                             {"RoomId", roomId}
             */
-            response.Add("IsSuccess", false);
             if (Details.ContainsKey("RoomId"))
             {
-                string MatchId = RoomsManager.Instance.MatchRoomId["RoomId"];
                 response.Add("Response", "JoinRoom");
                 response.Add("RoomId", Details["RoomId"]);
-
-                if (RoomsManager.Instance.GetRoom(MatchId.ToString()).AddPlayer(CurUser.UserId))
-                    response["IsSuccess"]= true;
-                    
-                try
+                GameThread curr = RoomsManager.Instance.GetRoomByRoomId(Details["RoomId"].ToString());
+                if (curr != null)
                 {
-                    MatchData curMatchData = MatchingManager.Instance.GetMatchingData(MatchId);
-                    if (curMatchData != null)
+                    string MatchId = curr.MatchId;
+
+                    if (curr.AddPlayer(CurUser.UserId))
+                        response.Add("IsSuccess", true);
+                    else
+                        response.Add("IsSuccess", false);
+
+
+                    try
                     {
-                        curMatchData.ChangePlayerReady(CurUser.UserId, true);
-                        if (curMatchData.IsAllReady())
+                        MatchData curMatchData = MatchingManager.Instance.GetMatchingData(MatchId);
+                        if (curMatchData != null)
                         {
-                            MatchingManager.Instance.RemoveFromMatchingData(MatchId);
-                            /*start game? */
+                            curMatchData.ChangePlayerReady(CurUser.UserId, true);
+                            if (curMatchData.IsAllReady())
+                            {
+                                MatchingManager.Instance.RemoveFromMatchingData(MatchId);
+                                /*start game? */
+                            }
+                            else Console.WriteLine("Waiting for more players");
                         }
-                        else Console.WriteLine("Waiting for more players");
                     }
+                    catch (Exception e) { }
                 }
-                catch (Exception e) { }
+                else
+                    response.Add("IsSuccess", false);
             }
             else
                 response.Add("Response", null);
+
             return response;
         }
     }

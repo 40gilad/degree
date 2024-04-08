@@ -18,6 +18,7 @@ namespace GameServerShenkar.Threads
         #region Variables
 
         private string matchId;
+        public string MatchId {  get { return matchId; } }
         private int turnTime = GlobalVariables.TurnTime;
         public int TurnTime {get {return turnTime;} }
         private int _timeOutTime = GlobalVariables.TimeOutTime;
@@ -226,9 +227,9 @@ namespace GameServerShenkar.Threads
 
             return new Dictionary<string, object>();
         }
-        public bool AddPlayer(string uid, string match_id)
+        public bool AddPlayer(string uid)
         {
-            if (IsRoomActive && joinedUsersCount == (maxUsersCount -1)// when opening room, joined user count = 0 althoguh it has 1 player- the one who created it
+            if (joinedUsersCount == 0// when opening room, joined user count = 0 althoguh it has 1 player- the one who created it
                 && (secondPlayer == null || secondPlayer==string.Empty)) 
                 /* if room is active, there is place for one more player and second player is indeed null */
             {
@@ -238,6 +239,7 @@ namespace GameServerShenkar.Threads
                 /* change second user state to pre play */
                 User curr = SessionsManager.Instance.GetUser(uid);
                 curr.CurUserState = User.UserState.PrePlay;
+                return true;
             }
             return false;
         }
