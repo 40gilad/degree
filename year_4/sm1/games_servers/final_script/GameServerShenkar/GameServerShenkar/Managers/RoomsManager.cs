@@ -79,6 +79,5 @@ namespace GameServerShenkar.Managers
             else return false;
         }
 
-
     }
 }

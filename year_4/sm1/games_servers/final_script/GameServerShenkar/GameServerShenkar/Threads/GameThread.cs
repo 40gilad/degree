@@ -32,6 +32,10 @@ namespace GameServerShenkar.Threads
         public string RoomName { get { return roomName; } }
         string roomOwner = string.Empty;
         public string RoomOwner { get { return roomOwner; } }
+
+        string secondPlayer = string.Empty;
+        public string SecondPlayer { get { return secondPlayer; } }
+
         int maxUsersCount = GlobalVariables.MaxPlayers;
         public int MaxUsersCount { get { return maxUsersCount; } }
         int joinedUsersCount = -1;
@@ -222,7 +226,21 @@ namespace GameServerShenkar.Threads
 
             return new Dictionary<string, object>();
         }
+        public bool AddPlayer(string uid, string match_id)
+        {
+            if (IsRoomActive && joinedUsersCount == (maxUsersCount -1)// when opening room, joined user count = 0 althoguh it has 1 player- the one who created it
+                && (secondPlayer == null || secondPlayer==string.Empty)) 
+                /* if room is active, there is place for one more player and second player is indeed null */
+            {
+                joinedUsersCount++;
+                secondPlayer = uid;
 
+                /* change second user state to pre play */
+                User curr = SessionsManager.Instance.GetUser(uid);
+                curr.CurUserState = User.UserState.PrePlay;
+            }
+            return false;
+        }
 
         #endregion
     }

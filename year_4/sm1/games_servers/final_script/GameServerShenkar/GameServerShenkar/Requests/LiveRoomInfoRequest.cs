@@ -42,7 +42,7 @@ namespace GameServerShenkar.Requests
                     roomDetails.Add("TurnTime", room.TurnTime);
                     roomDetails.Add("Owner", room.RoomOwner);
                     roomDetails.Add("MaxUsersCount", room.MaxUsersCount);
-                    roomDetails.Add("JoindUserCount", room.JoindUserCount);
+                    roomDetails.Add("JoinedUsersCount", room.JoindUserCount);
                     response.Add("RoomData", roomDetails);
                 }
                 else
