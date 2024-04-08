@@ -55,7 +55,7 @@ namespace GameServerShenkar.Managers
                 ActiveRooms.Remove(MatchId);
         }
 
-        public GameThread GetRoom(string MatchId)
+        public GameThread GetRoomByMatchId(string MatchId)
         {
             if (ActiveRooms != null && ActiveRooms.ContainsKey(MatchId))
                 return ActiveRooms[MatchId];
@@ -79,7 +79,7 @@ namespace GameServerShenkar.Managers
         }
         public bool IsRoomExist(string MatchId)
         {
-            if (GetRoom(MatchId) != null)
+            if (GetRoomByMatchId(MatchId) != null)
                 return true;
             else return false;
         }

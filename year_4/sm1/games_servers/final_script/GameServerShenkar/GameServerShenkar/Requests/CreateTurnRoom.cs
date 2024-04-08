@@ -21,16 +21,17 @@ namespace GameServerShenkar.Requests
                 && Details.ContainsKey("MaxUsers") && Details.ContainsKey("TableProperties")
                 && Details.ContainsKey("TurnTime"))
             {
-                int currMatchId = GlobalVariables.MatchId;
+                int currMatchId = GlobalVariables.GetAndIncMatchId();
                 SearchData currSearchData = new SearchData(CurUser.UserId, RedisService.GetPlayerRating(CurUser.UserId));
                 List<SearchData> searchDataList = new List<SearchData>();
                 searchDataList.Add(currSearchData);
                 MatchData currmatchdata = new MatchData(currMatchId, searchDataList, CurUser.UserId);
                 MatchingManager.Instance.AddToMatchingData(currMatchId.ToString(), currmatchdata);
-                ReadyToPlay(CurUser, currMatchId.ToString(), Details["Name"].ToString());
+                string newMatchId = ReadyToPlay(CurUser, currMatchId.ToString(),
+                    Details["Name"].ToString())["MatchId"].ToString();
                 response.Add("Response", "CreateTurnRoom");
                 response.Add("IsSuccess", true);
-                response.Add("RoomId", GlobalVariables.RoomId);
+                response.Add("RoomId", RoomsManager.Instance.GetRoomByMatchId(newMatchId).RoomId);
 
             }
             else

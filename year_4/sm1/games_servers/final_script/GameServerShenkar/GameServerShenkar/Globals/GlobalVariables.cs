@@ -30,8 +30,12 @@ namespace GameServerShenkar.Globals
         private static int max_players = 2;
         public static int MaxPlayers { get { return max_players; } }
 
-        private static int match_id= 0;
-        public static int MatchId { get { return match_id++; } }
+        private static int match_id= 1;
+        public static int MatchId { get { return match_id; } }
+        public static int GetAndIncMatchId()
+        {
+            return match_id++;
+        }
 
     }
 }
