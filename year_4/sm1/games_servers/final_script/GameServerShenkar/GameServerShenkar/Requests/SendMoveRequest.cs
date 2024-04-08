@@ -17,7 +17,7 @@ namespace GameServerShenkar.Requests
             Dictionary<string, object> response = new Dictionary<string, object>();
             if (Details.ContainsKey("Index"))
             {
-                GameThread room = RoomsManager.Instance.GetRoom(CurUser.MatchId);
+                GameThread room = RoomsManager.Instance.GetRoomByMatchId(CurUser.MatchId);
                 if(room != null && room.IsRoomActive)
                 {
                     response = room.ReceivedMove(CurUser, Details["Index"].ToString());

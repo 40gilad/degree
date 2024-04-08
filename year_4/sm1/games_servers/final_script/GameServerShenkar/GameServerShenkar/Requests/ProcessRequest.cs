@@ -47,6 +47,12 @@ namespace GameServerShenkar.Requests
                             case "JoinRoom":
                                 response = JoinRoomRequest.Get(curUser, msgData);
                                 break;
+                            case "StartGame":
+                                response = StartGameRequest.Get(curUser, msgData);
+                                break;
+                            case "SubscribeRoom":
+                                response = SubscribeRoomRequest.Get(curUser, msgData);
+                                break;
                             case "SendChat":
                                 if(msgData.ContainsKey("Message"))
                                     response = SendChatRequest.Get(curUser, msgData["Message"].ToString());

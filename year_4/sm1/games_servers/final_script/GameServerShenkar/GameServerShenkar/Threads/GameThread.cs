@@ -244,6 +244,16 @@ namespace GameServerShenkar.Threads
             return false;
         }
 
+        public bool AddPlayerToRoomBrodcast(string uid)
+        {
+            try { 
+                User curr = SessionsManager.Instance.GetUser(uid);
+                users.Add(uid, curr);
+                return true;
+                }
+            catch { return false; }
+        }
+
         #endregion
     }
 }

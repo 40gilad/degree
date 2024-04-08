@@ -4,6 +4,7 @@ using GameServerShenkar.Services;
 using GameServerShenkar.Threads;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -29,10 +30,15 @@ namespace GameServerShenkar.Requests
                 {
                     string MatchId = curr.MatchId;
 
-                    if (curr.AddPlayer(CurUser.UserId))
+                    if (curr.RoomOwner != CurUser.UserId)
+                    { // second player wants to join
+                        if (curr.AddPlayer(CurUser.UserId)) 
+                            response.Add("IsSuccess", true);
+                        else { response.Add("IsSuccess", false); }
+                    }
+                    else if (curr.RoomOwner == CurUser.UserId) // owner wants to join room
                         response.Add("IsSuccess", true);
-                    else
-                        response.Add("IsSuccess", false);
+
 
 
                     try

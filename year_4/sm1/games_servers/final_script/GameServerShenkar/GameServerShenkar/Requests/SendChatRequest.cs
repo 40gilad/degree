@@ -15,7 +15,7 @@ namespace GameServerShenkar.Requests
         public static Dictionary<string, object> Get(User CurUser, string Message)
         {
             Dictionary<string, object> response = new Dictionary<string, object>();
-            GameThread room = RoomsManager.Instance.GetRoom(CurUser.MatchId);
+            GameThread room = RoomsManager.Instance.GetRoomByMatchId(CurUser.MatchId);
             if (room != null && room.IsRoomActive)
             {
                 response = room.SendChat(CurUser, Message);
