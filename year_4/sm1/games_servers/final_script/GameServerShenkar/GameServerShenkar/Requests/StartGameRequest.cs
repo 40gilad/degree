@@ -31,6 +31,7 @@ namespace GameServerShenkar.Requests
             response.Add("TurnsList", PlayersList);
             response.Add("TurnTime", curr.TurnTime);
             curr.Users[curr.SecondPlayer].SendMessage(JsonLogic.Serialize(response));
+            curr.StartGame();
             return response;
         }
     }

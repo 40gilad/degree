@@ -156,11 +156,17 @@ namespace GameServerShenkar.Threads
                 response = new Dictionary<string, object>()
                 {
                     {"Service","BroadcastMove"},
-                    {"SenderId",curUser.UserId},
-                    {"Index",boardIndex},
-                    {"CP",playersOrder[turnIndex]},
-                    {"MC",moveCounter},
+                    {"Sender",curUser.UserId},
+                    {"MoveData",boardIndex},
+                    {"RoomId",roomId}
                 };
+
+                string next_turn = null;
+                if (curUser.UserId == RoomOwner)
+                    next_turn = secondPlayer;
+                else if (curUser.UserId == secondPlayer)
+                    next_turn = RoomOwner;
+                response.Add("NextTurn", next_turn);
 
                 string toSend = JsonLogic.Serialize(response);
                 BroadcastToRoom(toSend);
@@ -235,6 +241,7 @@ namespace GameServerShenkar.Threads
             {
                 joinedUsersCount++;
                 secondPlayer = uid;
+                playersOrder.Add(uid);
 
                 /* change second user state to pre play */
                 User curr = SessionsManager.Instance.GetUser(uid);

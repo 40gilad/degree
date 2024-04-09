@@ -35,6 +35,7 @@ namespace GameServerShenkar.Requests
                         if (curr.AddPlayer(CurUser.UserId)) 
                             response.Add("IsSuccess", true);
                         else { response.Add("IsSuccess", false); }
+                        CurUser.MatchId= MatchId;
                     }
                     else if (curr.RoomOwner == CurUser.UserId) // owner wants to join room
                         response.Add("IsSuccess", true);
@@ -50,7 +51,6 @@ namespace GameServerShenkar.Requests
                             if (curMatchData.IsAllReady())
                             {
                                 MatchingManager.Instance.RemoveFromMatchingData(MatchId);
-                                /*start game? */
                             }
                             else Console.WriteLine("Waiting for more players");
                         }
