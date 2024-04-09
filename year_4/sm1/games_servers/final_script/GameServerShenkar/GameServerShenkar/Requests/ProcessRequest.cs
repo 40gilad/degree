@@ -61,6 +61,10 @@ namespace GameServerShenkar.Requests
                                 if(msgData.ContainsKey("Message"))
                                     response = SendChatRequest.Get(curUser, msgData["Message"].ToString());
                                 break;
+                            case "CancelMatching":
+                                    response = SendChatRequest.Get(curUser, msgData["Message"].ToString());
+                                break;
+
                         }
                     }
                     else Console.WriteLine("No service is sent");
