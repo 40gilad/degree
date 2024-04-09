@@ -62,7 +62,7 @@ namespace GameServerShenkar.Requests
                                     response = SendChatRequest.Get(curUser, msgData["Message"].ToString());
                                 break;
                             case "CancelMatching":
-                                    response = SendChatRequest.Get(curUser, msgData["Message"].ToString());
+                                    response = CancelMatchingRequest.Get(curUser, msgData["Message"].ToString());
                                 break;
 
                         }
