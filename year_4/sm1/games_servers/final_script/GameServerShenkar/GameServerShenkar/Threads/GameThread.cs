@@ -32,10 +32,10 @@ namespace GameServerShenkar.Threads
         string roomName = string.Empty;
         public string RoomName { get { return roomName; } }
         string roomOwner = string.Empty;
-        public string RoomOwner { get { return roomOwner; } }
+        public string RoomOwner { get { return roomOwner; } set { roomOwner = value; } }
 
         string secondPlayer = string.Empty;
-        public string SecondPlayer { get { return secondPlayer; } }
+        public string SecondPlayer { get { return secondPlayer; } set { secondPlayer = value; } }
 
         int maxUsersCount = GlobalVariables.MaxPlayers;
         public int MaxUsersCount { get { return maxUsersCount; } }
@@ -211,7 +211,7 @@ namespace GameServerShenkar.Threads
             BroadcastToRoom(toSend);
         }
 
-        private void CloseRoom()
+        public void CloseRoom()
         {
             Console.WriteLine("Closed Room " + DateTime.UtcNow.ToShortTimeString());
             isRoomActive = false;
@@ -224,7 +224,7 @@ namespace GameServerShenkar.Threads
             {
                 {"Service","SendChat"},
                 {"Sender",curUser.UserId},
-                {"MatchId",curUser.MatchId},
+                {"RoomId",roomId},
                 {"Message",message}
             };
 
