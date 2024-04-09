@@ -261,6 +261,32 @@ namespace GameServerShenkar.Threads
             catch { return false; }
         }
 
+        public bool ReomovePlayer(string uid)
+        {
+            try
+            {
+                if (RoomOwner == uid)
+                {
+                    RoomOwner = secondPlayer;
+                    secondPlayer = string.Empty;
+                }
+                else if (secondPlayer == uid)
+                {
+                    secondPlayer = string.Empty;
+                }
+                playersOrder.Remove(uid);
+                joinedUsersCount--;
+
+                if (Users.Count == 0)
+                {
+                    CloseRoom();
+                    return response;
+                }
+                return true;
+            }
+            catch { return false; }
+        }
+
         #endregion
     }
 }
