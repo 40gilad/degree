@@ -34,7 +34,7 @@ namespace GameServerShenkar.Requests
                                 response = SendMoveRequest.Get(curUser, msgData);
                                 break;
                             case "StopGame":
-                                //TODO: Stop Game Logic
+                                response = StopGameRequest.Get(curUser, msgData);
                                 break;
                             case "GetRoomsInRange":
                                 response = RoomInRangeRequest.Get(curUser, msgData);
@@ -50,6 +50,9 @@ namespace GameServerShenkar.Requests
                                 break;
                             case "StartGame":
                                 response = StartGameRequest.Get(curUser, msgData);
+                                break;
+                            case "LeaveRoom":
+                                response = LeaveRoomRequest.Get(curUser, msgData);
                                 break;
                             case "SubscribeRoom":
                                 response = SubscribeRoomRequest.Get(curUser, msgData);
