@@ -278,10 +278,7 @@ namespace GameServerShenkar.Threads
                 joinedUsersCount--;
 
                 if (Users.Count == 0)
-                {
                     CloseRoom();
-                    return response;
-                }
                 return true;
             }
             catch { return false; }
