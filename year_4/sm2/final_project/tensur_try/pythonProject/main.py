@@ -1,18 +1,11 @@
 # region create_models
 
-import sys
-import os
-import pandas as pd
-import numpy as np
-import tensorflow as tf
 from tensorflow.keras.layers import Input, MaxPooling2D, Conv2D, Dense, LeakyReLU, BatchNormalization, \
     AveragePooling2D, GlobalAveragePooling2D, Cropping2D, Flatten, Multiply, ReLU, ELU, GlobalMaxPooling2D, Concatenate, \
     Softmax, DepthwiseConv2D, Activation
 from tensorflow.keras.applications import resnet50, efficientnet, mobilenet
 from tensorflow.keras.models import Model, load_model
-from tensorflow.keras.optimizers import SGD, Adam
-from tensorflow.keras.activations import relu
-from tensorflow.keras import backend as K
+
 
 
 def create_resnet50(input_shape, lr, n_classes):
@@ -59,17 +52,22 @@ if __name__ == '__main__':
         r'C:\Users\40gil\Desktop\degree\year_4\sm2\final_project\asl_alphabet_test\asl_alphabet_test')  # path to test images directory
     test_metapath = test_path / 'metadata.csv'
 
+    ########### TO LOAD MODEL AND TO RUN IT ON TEST SET
+    loaded_model=True
+    loaded_model_dir=r'C:\Users\40gil\Desktop\degree\year_4\sm2\final_project\firstRealRun_bugfix_100Epochs_20_52_03\firstRealRun_bugfix_100Epochs.h5'
+    ####################
+
     # -- params ----
     bs = 32  # batch size
-    ts = (50, 50)  # target size
+    ts = (128, 128)  # target size
     x_col = 'filename'  # the column in the dataframe that contains the path to the images
     y_col = 'class_encoding'
     validation_split = 0.2  # train validation split
     lr = 1e-3
-    epochs = 1
+    epochs = 100
     steps = 100
 
-    tag = 'kaki'  # run tag
+    tag = 'firstRealRun_bugfix_100Epochs'  # run tag
 
     # --- dirs ---
     tagdir = Path(
@@ -83,9 +81,10 @@ if __name__ == '__main__':
     df_tst = pd.read_csv(test_metapath)  # get metadata
 
     df_trn['filename'] = df_trn.filename.apply(lambda f: str(train_path / f))
-    df_trn.class_encoding = df_trn.class_encoding.astype(str)
+    df_trn.class_encoding = df_trn.class_encoding
+    df_trn['class_encoding'] = df_trn['class_encoding'].apply(lambda x : [x])
     df_tst['filename'] = df_tst.filename.apply(lambda f: str(test_path / f))
-    df_tst.class_encoding = df_tst.class_encoding.astype(str)
+    df_tst['class_encoding'] = df_tst['class_encoding'].apply(lambda x : [x])
 
     df_tst_pp = df_tst.copy()
     df_trn_pp, df_val_pp = train_test_split(df_trn, test_size=validation_split,
@@ -114,9 +113,13 @@ if __name__ == '__main__':
     earlystop_cb = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', mode='max', min_delta=1e-4,
                                                     patience=15, verbose=1, baseline=None, restore_best_weights=True)
     callbacks = [reduce_lr_cb, earlystop_cb]
-    model = create_resnet50(input_shape=(ts[0], ts[1], 3), lr=lr, n_classes=26)
-    # --- fit model ---
-    model.fit(trn_gen, validation_data=val_gen, callbacks=callbacks, **fit_dict)
+
+    if loaded_model: # use loaded model and don't train
+        model = tf.keras.models.load_model(loaded_model_dir)
+    else:
+        model = create_resnet50(input_shape=(ts[0], ts[1], 3), lr=lr, n_classes=26)
+        # --- fit model ---
+        model.fit(trn_gen, validation_data=val_gen, callbacks=callbacks, **fit_dict)
 
     # -- save model --
     fn = tagdir / f'{tag}.h5'
@@ -124,7 +127,7 @@ if __name__ == '__main__':
     class_encoding_revers = np.sort(df_trn.label.unique())
     print(f'Model saved to : {fn}')
     val_pred = model.predict(val_gen).argmax(axis=1)
-    val_labels = df_val_pp.class_encoding.to_numpy().astype(int)
+    val_labels = np.array([ii[0] for ii in df_val_pp.class_encoding])
     val_acc = sum(val_pred == val_labels) / len(val_pred)
     conf_mat = confusion_matrix(val_labels, val_pred)
     fig = plt.figure(figsize=(20, 20))
@@ -136,7 +139,7 @@ if __name__ == '__main__':
     df_val_pp.to_csv(tagdir / f'val_res.csv')
 
     tst_pred = model.predict(tst_gen).argmax(axis=1)
-    tst_labels = df_tst_pp.class_encoding.to_numpy().astype(int)
+    tst_labels = np.array([ii[0] for ii in df_tst_pp.class_encoding])
     tst_acc = sum(tst_pred == tst_labels) / len(tst_pred)
 
     conf_mat = confusion_matrix(tst_labels, tst_pred)
