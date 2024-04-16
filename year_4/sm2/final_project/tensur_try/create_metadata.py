@@ -39,12 +39,33 @@ def create_test_meta_data(class_encoding):
         images_list.append(img)
         labels_list.append(cur_label)
         lable_class_encoding.append(class_encoding[cur_label])
+
     df["filename"] = images_list
     df["label"] = labels_list
     df['class_encoding']=lable_class_encoding
     df.to_csv(os.path.join(images_dir, 'metadata.csv'), index=False)
 
 
+def create_test_meta_data_2(class_encoding):
+    df = pd.DataFrame()
+    images_list = []
+    labels_list = []
+    lable_class_encoding = []
+    images_dir = r'C:\Users\40gil\Desktop\degree\year_4\sm2\final_project\arabic_to_english'
+    for dir in os.listdir(images_dir):
+        for img in os.listdir(os.path.join(images_dir, dir)):
+            cur_label = dir
+            if len(cur_label) > 1:
+                continue
+            images_list.append(os.path.join(dir, img))
+            labels_list.append(cur_label)
+            lable_class_encoding.append(class_encoding[cur_label])
+
+    df["filename"] = images_list
+    df["label"] = labels_list
+    df['class_encoding'] = lable_class_encoding
+    df.to_csv(os.path.join(images_dir, 'metadata.csv'), index=False)
 if __name__ == '__main__':
     class_encoding=create_train_meta_data()
-    create_test_meta_data(class_encoding)
+    # create_test_meta_data(class_encoding)
+    create_test_meta_data_2(class_encoding)

@@ -50,7 +50,8 @@ if __name__ == '__main__':
     test_path = Path(
         r'C:\Users\40gil\Desktop\degree\year_4\sm2\final_project\asl_alphabet_test\asl_alphabet_test')  # path to test images directory
     test_metapath = test_path / 'metadata.csv'
-
+    test_2_path = Path(r'C:\Users\40gil\Desktop\degree\year_4\sm2\final_project\arabic_to_english')
+    test_2_metapath =test_2_path/'metadata.csv'
     ########### TO LOAD MODEL AND TO RUN IT ON TEST SET
     loaded_model = False
     loaded_model_dir = r'C:\Users\40gil\Desktop\degree\year_4\sm2\final_project\firstRealRun_bugfix_100Epochs_20_52_03\firstRealRun_bugfix_100Epochs.h5'
@@ -58,15 +59,15 @@ if __name__ == '__main__':
 
     # -- params ----
     bs = 32  # batch size
-    ts = (128, 128)  # target size
+    ts = (200, 200)  # target size
     x_col = 'filename'  # the column in the dataframe that contains the path to the images
     y_col = 'class_encoding'
     validation_split = 0.2  # train validation split
     lr = 1e-3
-    epochs = 100
+    epochs = 120
     steps = 100
 
-    tag = 'firstRealRun_bugfix_100Epochs'  # run tag
+    tag = 'firstRealRun_horizontal_flip_120Epochs'  # run tag
 
     # --- dirs ---
     tagdir = Path(
@@ -78,20 +79,22 @@ if __name__ == '__main__':
     # --- read and preprocess metadata ----
     df_trn = pd.read_csv(train_metapath)  # get metadata
     df_tst = pd.read_csv(test_metapath)  # get metadata
-
+    df_tst_2 = pd.read_csv(test_2_metapath)  # get metadata
     df_trn['filename'] = df_trn.filename.apply(lambda f: str(train_path / f))
     df_trn.class_encoding = df_trn.class_encoding
     df_trn['class_encoding'] = df_trn['class_encoding'].apply(lambda x: [x])
     df_tst['filename'] = df_tst.filename.apply(lambda f: str(test_path / f))
     df_tst['class_encoding'] = df_tst['class_encoding'].apply(lambda x: [x])
-
+    df_tst_2['filename'] = df_tst_2.filename.apply(lambda f: str(test_2_path / f))
+    df_tst_2['class_encoding'] = df_tst_2['class_encoding'].apply(lambda x: [x])
     df_tst_pp = df_tst.copy()
+    df_tst_2_pp = df_tst_2.copy()
     df_trn_pp, df_val_pp = train_test_split(df_trn, test_size=validation_split,
                                             random_state=666)
 
     # --- make gens ----
     trn_gen = ImageDataGenerator(rotation_range=10, width_shift_range=5, height_shift_range=5, zoom_range=0.1,
-                                 channel_shift_range=10, shear_range=10).flow_from_dataframe(df_trn_pp,
+                                 channel_shift_range=10, shear_range=10, horizontal_flip=True).flow_from_dataframe(df_trn_pp,
                                                                                              x_col='filename',
                                                                                              y_col='class_encoding',
                                                                                              target_size=ts,
@@ -100,6 +103,8 @@ if __name__ == '__main__':
     val_gen = ImageDataGenerator().flow_from_dataframe(df_val_pp, x_col='filename', y_col='class_encoding',
                                                        target_size=ts, shuffle=False, class_mode='categorical')
     tst_gen = ImageDataGenerator().flow_from_dataframe(df_tst_pp, x_col='filename', y_col='class_encoding',
+                                                       target_size=ts, shuffle=False, class_mode='categorical')
+    tst_2_gen = ImageDataGenerator().flow_from_dataframe(df_tst_2_pp, x_col='filename', y_col='class_encoding',
                                                        target_size=ts, shuffle=False, class_mode='categorical')
 
     fit_dict = {
@@ -171,6 +176,29 @@ if __name__ == '__main__':
             df_tst_pp.loc[ind_img,'raw_pred_'+l] = tst_pred_raw[ind_img,ind_letter]
     df_tst_pp.to_csv(tagdir / f'tst_res.csv')
 
+#######################3
+    tst_pred_raw = model.predict(tst_2_gen)
+    tst_pred = tst_pred_raw.argmax(axis=1)
+    xticks_new_list =  [str(ii)+'('+jj+')' for ii,jj in class_encoding_dict.items() if ii in tst_pred]
+    tst_labels = np.array([ii[0] for ii in df_tst_2_pp.class_encoding])
+    tst_acc = sum(tst_pred == tst_labels) / len(tst_pred)
+
+    conf_mat = confusion_matrix(tst_labels, tst_pred)
+    fig = plt.figure(figsize=(16, 16))
+    ax = fig.add_subplot(111)
+    sns.heatmap(conf_mat, annot=True, ax=ax)
+    plt.title(f'acc={tst_acc}')
+    ax.set_xticklabels(xticks_new_list, rotation=45)
+    ax.set_yticklabels(xticks_new_list, rotation=0)
+    ax.tick_params(axis='both', which='major', labelsize=10)
+    plt.savefig(plotsdir / f'{tag}_tst_2_cm.png')
+    df_tst_2_pp['prediction'] = tst_pred
+    df_tst_2_pp['predicted_letter'] = df_tst_2_pp.prediction.map(class_encoding_dict)
+    df_tst_2_pp.reset_index(inplace=True)
+    for ind_img in range(df_tst_2_pp.shape[0]):
+        for ind_letter, l in enumerate(class_encoding_revers):
+            df_tst_2_pp.loc[ind_img, 'raw_pred_' + l] = tst_pred_raw[ind_img, ind_letter]
+    df_tst_2_pp.to_csv(tagdir / f'tst_2_res.csv')
     shutil.copy(__file__, tagdir / 'script.py')
     print('Done!!!')
 
