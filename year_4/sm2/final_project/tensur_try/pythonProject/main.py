@@ -25,7 +25,7 @@ def create_resnet50(input_shape, lr, n_classes):
     x = GlobalAveragePooling2D()(x)
     x = Dense(n_classes, activation='softmax')(x)
     model = Model(inputs=input, outputs=x)
-    model.compile(loss='categorical_crossentropy',optimizer='SGD',metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer='SGD', metrics=['accuracy'])
     return model
 
 
@@ -43,7 +43,8 @@ import numpy as np
 import tensorflow as tf
 import shutil
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+import seaborn as sns
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
@@ -86,7 +87,6 @@ if __name__ == '__main__':
     df_tst['filename'] = df_tst.filename.apply(lambda f: str(test_path / f))
     df_tst.class_encoding = df_tst.class_encoding.astype(str)
 
-
     df_tst_pp = df_tst.copy()
     df_trn_pp, df_val_pp = train_test_split(df_trn, test_size=validation_split,
                                             random_state=666)
@@ -97,9 +97,10 @@ if __name__ == '__main__':
                                                                                              x_col='filename',
                                                                                              y_col='class_encoding',
                                                                                              target_size=ts,
-                                                                                             class_mode='categorical')
+                                                                                             class_mode='categorical',
+                                                                                             shuffle=True)
     val_gen = ImageDataGenerator().flow_from_dataframe(df_val_pp, x_col='filename', y_col='class_encoding',
-                                                       target_size=ts, class_mode='categorical')
+                                                       target_size=ts, shuffle=False, class_mode='categorical')
     tst_gen = ImageDataGenerator().flow_from_dataframe(df_tst_pp, x_col='filename', y_col='class_encoding',
                                                        target_size=ts, shuffle=False, class_mode='categorical')
 
@@ -120,18 +121,34 @@ if __name__ == '__main__':
     # -- save model --
     fn = tagdir / f'{tag}.h5'
     model.save(fn)
+    class_encoding_revers = np.sort(df_trn.label.unique())
     print(f'Model saved to : {fn}')
-    # --- evaluate ---
-    dfval = evaluate_multi(model, gen_val, df_val_pp, class_encoding_in_val, x_col, y_col, plotsdir, prefstr='Val')
-    dftst = evaluate_multi(model, gen_test, df_tst_pp, class_encoding_in_test, x_col, y_col, plotsdir, prefstr='Test')
+    val_pred = model.predict(val_gen).argmax(axis=1)
+    val_labels = df_val_pp.class_encoding.to_numpy().astype(int)
+    val_acc = sum(val_pred == val_labels) / len(val_pred)
+    conf_mat = confusion_matrix(val_labels, val_pred)
+    fig = plt.figure(figsize=(20, 20))
+    ax = fig.add_subplot(111)
+    sns.heatmap(conf_mat, annot=True, ax=ax)
+    plt.title(f'acc={val_acc}')
+    plt.savefig(plotsdir / f'{tag}_val_cm.png')
+    df_val_pp['prediction'] = val_pred
+    df_val_pp.to_csv(tagdir / f'val_res.csv')
 
-    # --- save results ---
-    dftst.to_csv(tagdir / 'dftst.csv')
-    dfval.to_csv(tagdir / 'dfval.csv')
+    tst_pred = model.predict(tst_gen).argmax(axis=1)
+    tst_labels = df_tst_pp.class_encoding.to_numpy().astype(int)
+    tst_acc = sum(tst_pred == tst_labels) / len(tst_pred)
+
+    conf_mat = confusion_matrix(tst_labels, tst_pred)
+    fig = plt.figure(figsize=(20, 20))
+    ax = fig.add_subplot(111)
+    sns.heatmap(conf_mat, annot=True, ax=ax)
+    plt.title(f'acc={tst_acc}')
+    plt.savefig(plotsdir / f'{tag}_tst_cm.png')
+    df_tst_pp['prediction'] = tst_pred
+    df_tst_pp.to_csv(tagdir / f'tst_res.csv')
 
     shutil.copy(__file__, tagdir / 'script.py')
-    shutil.copy(Path(os.environ['DL_PATH']) / 'algo/projects/murata/phase_2/gen.py', tagdir / 'gen.py')
-    shutil.copy(Path(os.environ['DL_PATH']) / 'algo/projects/murata/phase_2/models_playground.py', tagdir / 'models.py')
     print('Done!!!')
 
 # endregion
