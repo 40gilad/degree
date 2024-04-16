@@ -7,7 +7,6 @@ from tensorflow.keras.applications import resnet50, efficientnet, mobilenet
 from tensorflow.keras.models import Model, load_model
 
 
-
 def create_resnet50(input_shape, lr, n_classes):
     base_model = resnet50.ResNet50(weights='imagenet', include_top=False, input_shape=input_shape)
     for l in base_model.layers:
@@ -53,8 +52,8 @@ if __name__ == '__main__':
     test_metapath = test_path / 'metadata.csv'
 
     ########### TO LOAD MODEL AND TO RUN IT ON TEST SET
-    loaded_model=True
-    loaded_model_dir=r'C:\Users\40gil\Desktop\degree\year_4\sm2\final_project\firstRealRun_bugfix_100Epochs_20_52_03\firstRealRun_bugfix_100Epochs.h5'
+    loaded_model = False
+    loaded_model_dir = r'C:\Users\40gil\Desktop\degree\year_4\sm2\final_project\firstRealRun_bugfix_100Epochs_20_52_03\firstRealRun_bugfix_100Epochs.h5'
     ####################
 
     # -- params ----
@@ -82,9 +81,9 @@ if __name__ == '__main__':
 
     df_trn['filename'] = df_trn.filename.apply(lambda f: str(train_path / f))
     df_trn.class_encoding = df_trn.class_encoding
-    df_trn['class_encoding'] = df_trn['class_encoding'].apply(lambda x : [x])
+    df_trn['class_encoding'] = df_trn['class_encoding'].apply(lambda x: [x])
     df_tst['filename'] = df_tst.filename.apply(lambda f: str(test_path / f))
-    df_tst['class_encoding'] = df_tst['class_encoding'].apply(lambda x : [x])
+    df_tst['class_encoding'] = df_tst['class_encoding'].apply(lambda x: [x])
 
     df_tst_pp = df_tst.copy()
     df_trn_pp, df_val_pp = train_test_split(df_trn, test_size=validation_split,
@@ -114,7 +113,7 @@ if __name__ == '__main__':
                                                     patience=15, verbose=1, baseline=None, restore_best_weights=True)
     callbacks = [reduce_lr_cb, earlystop_cb]
 
-    if loaded_model: # use loaded model and don't train
+    if loaded_model:  # use loaded model and don't train
         model = tf.keras.models.load_model(loaded_model_dir)
     else:
         model = create_resnet50(input_shape=(ts[0], ts[1], 3), lr=lr, n_classes=26)
@@ -125,30 +124,51 @@ if __name__ == '__main__':
     fn = tagdir / f'{tag}.h5'
     model.save(fn)
     class_encoding_revers = np.sort(df_trn.label.unique())
+    class_encoding_dict = dict(zip(np.arange(26),class_encoding_revers))
+    ticks_list = [str(ii)+'('+jj+')' for ii,jj in class_encoding_dict.items()]
     print(f'Model saved to : {fn}')
-    val_pred = model.predict(val_gen).argmax(axis=1)
+    val_pred_raw = model.predict(val_gen)
+    val_pred = val_pred_raw.argmax(axis=1)
+
     val_labels = np.array([ii[0] for ii in df_val_pp.class_encoding])
     val_acc = sum(val_pred == val_labels) / len(val_pred)
     conf_mat = confusion_matrix(val_labels, val_pred)
-    fig = plt.figure(figsize=(20, 20))
+    fig = plt.figure(figsize=(16, 16))
     ax = fig.add_subplot(111)
     sns.heatmap(conf_mat, annot=True, ax=ax)
+    ax.set_xticklabels(ticks_list,rotation=45)
+    ax.set_yticklabels(ticks_list,rotation=0)
+    ax.tick_params(axis='both', which='major',labelsize=10)
     plt.title(f'acc={val_acc}')
     plt.savefig(plotsdir / f'{tag}_val_cm.png')
     df_val_pp['prediction'] = val_pred
+    df_val_pp['predicted_letter'] = df_val_pp.prediction.map(class_encoding_dict)
+    df_val_pp.reset_index(inplace=True)
+    for ind_img in range(df_val_pp.shape[0]):
+        for ind_letter,l in enumerate(class_encoding_revers):
+            df_val_pp.loc[ind_img,'raw_pred_'+l] = val_pred_raw[ind_img,ind_letter]
     df_val_pp.to_csv(tagdir / f'val_res.csv')
 
-    tst_pred = model.predict(tst_gen).argmax(axis=1)
+    tst_pred_raw = model.predict(tst_gen)
+    tst_pred = tst_pred_raw.argmax(axis=1)
     tst_labels = np.array([ii[0] for ii in df_tst_pp.class_encoding])
     tst_acc = sum(tst_pred == tst_labels) / len(tst_pred)
 
     conf_mat = confusion_matrix(tst_labels, tst_pred)
-    fig = plt.figure(figsize=(20, 20))
+    fig = plt.figure(figsize=(16, 16))
     ax = fig.add_subplot(111)
     sns.heatmap(conf_mat, annot=True, ax=ax)
     plt.title(f'acc={tst_acc}')
+    ax.set_xticklabels(ticks_list,rotation=45)
+    ax.set_yticklabels(ticks_list,rotation=0)
+    ax.tick_params(axis='both', which='major',labelsize=10)
     plt.savefig(plotsdir / f'{tag}_tst_cm.png')
     df_tst_pp['prediction'] = tst_pred
+    df_tst_pp['predicted_letter'] = df_tst_pp.prediction.map(class_encoding_dict)
+    df_tst_pp.reset_index(inplace=True)
+    for ind_img in range(df_tst_pp.shape[0]):
+        for ind_letter,l in enumerate(class_encoding_revers):
+            df_tst_pp.loc[ind_img,'raw_pred_'+l] = tst_pred_raw[ind_img,ind_letter]
     df_tst_pp.to_csv(tagdir / f'tst_res.csv')
 
     shutil.copy(__file__, tagdir / 'script.py')
