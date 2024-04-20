@@ -1,23 +1,26 @@
 import cv2
 import numpy as np
-from PIL import Image
+import tkinter as tk
+from PIL import Image, ImageTk
 import mediapipe as mp
-import matplotlib.pyplot as plt
 import tensorflow as tf
 import os
 
-os.environ['CUDA_VISIBLE_DEVICES'] = ''
+# Suppress TensorFlow warnings
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
+# Load the trained model
 loaded_model_dir = r'C:\Users\40gil\Desktop\degree\year_4\sm2\final_project\running_outputs\bs=32_ts=(128, 128)_valSplit=0.2_lr=0.001_epochs=120_10_51_04\bs=32_ts=(128, 128)_valSplit=0.2_lr=0.001_epochs=120.h5'
 loaded_model = tf.keras.models.load_model(loaded_model_dir)
+class_to_letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+                   'U', 'V', 'W', 'X', 'Y', 'Z', 'nothing']
 
-class_to_letter = ['A','B', 'C','D','E' ,'F', 'G', 'H', 'I','J' ,'K', 'L', 'M', 'N','O', 'P','Q' ,'R', 'S', 'T','U','V', 'W','X','Y','Z' 'nothing']
+# Initialize the MediaPipe hand detector
+mp_hands = mp.solutions.hands
+hands = mp_hands.Hands(static_image_mode=False, max_num_hands=1, min_detection_confidence=0.5)
 
 
 def cut_image(image, size=(128, 128)):
-    """
-    :param image: cv2 image
-    :return: cv2 image (hand)
-    """
     image = image.astype(np.uint8)
     processed_image = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
     if processed_image.multi_hand_landmarks:
@@ -52,53 +55,61 @@ def cut_image(image, size=(128, 128)):
     return hand_region_bgr
 
 
-
-
-# Function to make a prediction on a single image
 def predict_image(image):
     if image is None:
         return "No image provided"
-
-    if image is None:
-        return "Failed to transform image"
-
-
     # Make a prediction on the single image
     image = np.expand_dims(image, axis=0)
     raw_pred = loaded_model.predict(image)
     pred = raw_pred.argmax(axis=1)
-    print(f"Predicted class = + {pred[0]}")
     return class_to_letter[pred[0]]
 
 
-# Initialize the MediaPipe hand detector
-mp_hands = mp.solutions.hands
-hands = mp_hands.Hands(static_image_mode=False, max_num_hands=1, min_detection_confidence=0.5)
+def update_prediction():
+    global video_label, prediction_label
+    ret, frame = cap.read()
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-# Initialize the MediaPipe drawing utilities
-mp_drawing = mp.solutions.drawing_utils
+    # Get hand region and make prediction
+    hand_region = cut_image(frame)
+    predicted_letter = predict_image(hand_region)
+
+    # Update the video feed label
+    img = Image.fromarray(hand_region)
+    img = ImageTk.PhotoImage(image=img)
+    video_label.imgtk = img
+    video_label.config(image=img)
+
+    # Update the prediction label
+    prediction_label.config(text="Predicted Letter: " + predicted_letter)
+
+    # Repeat every 10 ms
+    video_label.after(10, update_prediction)
+
+
+# Setup the main window
+root = tk.Tk()
+root.title("ASL Prediction App")
 
 # Open the webcam
 cap = cv2.VideoCapture(0)
 
-while True:
-    # Capture a frame from the webcam
-    ret, frame = cap.read()
+# Create a label to display the video feed
+video_label = tk.Label(root)
+video_label.pack()
 
-    if cv2.waitKey(1) & 0xFF == ord('s'):
-        # Use MediaPipe to detect the hand and pose in the frame
-        hand_region = cut_image(frame)
+# Create a label for the predicted letter
+prediction_label = tk.Label(root, text="Predicted Letter: ")
+prediction_label.pack()
 
-        predicted_letter = predict_image(hand_region)
-        print(f'predicted_letter= {predicted_letter}')
+# Create a button to update the prediction
+predict_button = tk.Button(root, text="Get Prediction", command=update_prediction)
+predict_button.pack()
 
-    # Display the frameb
-    cv2.imshow('Real-time ASL Prediction', frame)
+# Run the main loop
+update_prediction()  # Start the prediction loop
+root.mainloop()
 
-    # Exit the loop if 'q' is pressed
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-# Release the webcam and close all windows
+# Release the webcam
 cap.release()
 cv2.destroyAllWindows()
