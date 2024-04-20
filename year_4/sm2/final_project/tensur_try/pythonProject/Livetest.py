@@ -65,8 +65,7 @@ def predict_image(image):
     return class_to_letter[pred[0]]
 
 
-def update_prediction():
-    global video_label, prediction_label
+def on_predict():
     ret, frame = cap.read()
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
@@ -74,17 +73,14 @@ def update_prediction():
     hand_region = cut_image(frame)
     predicted_letter = predict_image(hand_region)
 
+    # Display prediction
+    prediction_var.set("Predicted Letter: " + predicted_letter)
+
     # Update the video feed label
     img = Image.fromarray(hand_region)
     img = ImageTk.PhotoImage(image=img)
     video_label.imgtk = img
     video_label.config(image=img)
-
-    # Update the prediction label
-    prediction_label.config(text="Predicted Letter: " + predicted_letter)
-
-    # Repeat every 10 ms
-    video_label.after(10, update_prediction)
 
 
 # Setup the main window
@@ -99,15 +95,31 @@ video_label = tk.Label(root)
 video_label.pack()
 
 # Create a label for the predicted letter
-prediction_label = tk.Label(root, text="Predicted Letter: ")
+prediction_var = tk.StringVar()
+prediction_label = tk.Label(root, textvariable=prediction_var, font=("Arial", 18))
 prediction_label.pack()
 
-# Create a button to update the prediction
-predict_button = tk.Button(root, text="Get Prediction", command=update_prediction)
+# Create a button to get prediction
+predict_button = tk.Button(root, text="Predict", command=on_predict, font=("Arial", 14))
 predict_button.pack()
 
+
+# Update video feed and prediction
+def update_frame():
+    ret, frame = cap.read()
+    if ret:
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        img = Image.fromarray(frame)
+        img = ImageTk.PhotoImage(image=img)
+        video_label.imgtk = img
+        video_label.config(image=img)
+        video_label.after(10, update_frame)
+    else:
+        root.after(10, update_frame)
+
+
 # Run the main loop
-update_prediction()  # Start the prediction loop
+update_frame()  # Start updating the video feed
 root.mainloop()
 
 # Release the webcam
