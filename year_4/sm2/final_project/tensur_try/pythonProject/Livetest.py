@@ -52,28 +52,6 @@ def cut_image(image, size=(128, 128)):
     return hand_region_bgr
 
 
-def transform(image):
-    if image is None or image.shape[0] == 0:
-        return None
-
-    image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # RGB to Gray scale
-
-    sharpening_kernel = np.array([
-        [-2, -1, 0],
-        [-1, 1, 1],
-        [0, 1, 2]
-    ])
-
-    sharpened_image = cv2.filter2D(image_gray, -1, sharpening_kernel)  # applying sharpening kernal
-    image_resized = cv2.resize(sharpened_image, (50, 50), interpolation=cv2.INTER_AREA)  # resizing the images to 50x50
-
-    return image_resized
-
-
-# transformed = transforms.Compose([
-#     # transforms.Grayscale(num_output_channels=1),
-#     transforms.ToTensor(),
-# ])
 
 
 # Function to make a prediction on a single image
@@ -81,8 +59,6 @@ def predict_image(image):
     if image is None:
         return "No image provided"
 
-    # Transform the image
-    # image = transform(image)
     if image is None:
         return "Failed to transform image"
 
