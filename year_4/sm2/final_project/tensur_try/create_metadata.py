@@ -236,7 +236,7 @@ def create_test_meta_data_2(class_encoding):
 
 
 if __name__ == '__main__':
-    #crop_images()
+    crop_images()
     class_encoding = create_train_meta_data()
     create_test_meta_data(class_encoding)
     create_test_meta_data_2(class_encoding)

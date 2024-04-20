@@ -54,8 +54,8 @@ if __name__ == '__main__':
     test_2_path = Path(r'C:\Users\40gil\Desktop\degree\year_4\sm2\final_project\images\hebrew_to_english')
     test_2_metapath = test_2_path / 'metadata.csv'
     ########### TO LOAD MODEL AND TO RUN IT ON TEST SET
-    loaded_model = False
-    loaded_model_dir = r'C:\Users\40gil\Desktop\degree\year_4\sm2\final_project\running_outputs\bs=32_ts=(128, 128)_valSplit=0.2_lr=0.001_epochs=120_10_51_04\bs=32_ts=(128, 128)_valSplit=0.2_lr=0.001_epochs=120.h5'
+    loaded_model = True
+    loaded_model_dir = r'C:\Users\40gil\Desktop\degree\year_4\sm2\final_project\running_outputs\bs=32_ts=(128, 128)_valSplit=0.2_lr=0.001_epochs=120_DateTime=19_59_16\bs=32_ts=(128, 128)_valSplit=0.2_lr=0.001_epochs=120.h5'
     ####################
 
     # -- params ----
