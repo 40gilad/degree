@@ -85,7 +85,7 @@ def on_predict():
 
 # Setup the main window
 root = tk.Tk()
-root.title("ASL Prediction App")
+root.title("SignMyName")
 
 # Open the webcam
 cap = cv2.VideoCapture(0)
@@ -102,6 +102,7 @@ prediction_label.pack()
 # Create a button to get prediction
 predict_button = tk.Button(root, text="Predict", command=on_predict, font=("Arial", 14))
 predict_button.pack()
+
 
 
 # Update video feed and prediction
