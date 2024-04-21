@@ -10,11 +10,9 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 # Load the trained model
-loaded_model_dir = r'C:\Users\40gil\Desktop\degree\year_4\sm2\final_project\running_outputs\bs=32_ts=(128, 128)_valSplit=0.2_lr=0.001_epochs=120_10_51_04\bs=32_ts=(128, 128)_valSplit=0.2_lr=0.001_epochs=120.h5'
+loaded_model_dir = r'C:\Users\40gil\Desktop\degree\year_4\sm2\final_project\running_outputs\asl_new_NoWeights_bs=32_ts=(128, 128)_valSplit=0.2_lr=0.001_epochs=120_DateTime=03_03_35\asl_new_NoWeights_bs=32_ts=(128, 128)_valSplit=0.2_lr=0.001_epochs=120.h5'
 loaded_model = tf.keras.models.load_model(loaded_model_dir)
-#class_to_letter = ['B', 'C', 'D', 'F', 'I', 'L', 'M', 'N', 'R', 'S', 'T', 'W', 'Z', 'nothing']
-class_to_letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-                   'U', 'V', 'W', 'X', 'Y', 'Z', 'nothing']
+class_to_letter = ['B', 'C', 'D', 'F', 'I', 'L', 'M', 'N', 'R', 'S', 'T', 'W', 'Z', 'nothing']
 english_to_hebrew = {
     'B': 'ב', 'C': 'כ', 'D': 'ו', 'F': 'ט', 'I': 'י', 'L': 'ל', 'M': 'מ', 'N': 'נ', 'R': 'ר', 'S': 'ס',
     'T': 'ת', 'W': 'ש', 'Z': 'ז'
@@ -67,9 +65,8 @@ def predict_image(image):
     image = np.expand_dims(image, axis=0)
     raw_pred = loaded_model.predict(image)
     pred = raw_pred.argmax(axis=1)
-    return class_to_letter[pred[0]]
-
-    #return english_to_hebrew[class_to_letter[pred[0]]]
+    print(class_to_letter[pred[0]])
+    return english_to_hebrew[class_to_letter[pred[0]]]
 
 # Create the main window
 root = tk.Tk()
